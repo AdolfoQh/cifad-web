@@ -1,0 +1,47 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@300;400;500;600;700;800;900&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400&display=swap');
+
+@import "tailwindcss";
+
+@theme {
+  /* Paleta CIFAD */
+  --color-cifad-dark:    #142347;
+  --color-cifad-blue:    #2a7b92;
+  --color-cifad-sky:     #5e98c2;
+  --color-cifad-orange:  #e47539;
+  --color-cifad-beige:   #e2e3d7;
+  --color-cifad-gray:    #b2aba9;
+
+  /* Logo original */
+  --color-brand-orange:  #f7941d;
+  --color-brand-blue:    #21409a;
+  --color-brand-gray:    #939598;
+
+  /* Tipografía */
+  --font-display: 'Roboto Slab', serif;
+  --font-body:    'Roboto', sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  color: var(--color-cifad-dark);
+  background-color: #ffffff;
+  -webkit-font-smoothing: antialiased;
+}
+
+#root {
+  width: 100%;
+  min-height: 100svh;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+}
