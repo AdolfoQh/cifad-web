@@ -1,55 +1,131 @@
-// Placeholder hasta tener datos reales
+import { useInView } from '../hooks/useInView'
+
+const B = {
+  bg: '#0a0e14', surface: '#161c26', border: '#222a36',
+  text: '#eef0f3', muted: '#8a93a3', accent: '#ff7a3d', accent2: '#7c9eff',
+}
+
 const placeholderProjects = [
   {
     id: 1,
-    title: 'Proyectos en curso',
-    description: 'Los proyectos de investigación del CIFAD se publicarán en esta sección próximamente.',
-    status: 'En desarrollo',
-    lab: 'General',
-    year: 2025,
+    num: '001',
+    title: 'Evaluación de interfaces con IA generativa',
+    lab: 'Lab UX',
+    year: '2025–',
+    status: 'En curso',
+  },
+  {
+    id: 2,
+    num: '002',
+    title: 'Accesibilidad en plataformas educativas',
+    lab: 'Lab Accesibilidad',
+    year: '2025–',
+    status: 'En curso',
+  },
+  {
+    id: 3,
+    num: '003',
+    title: 'Experiencias de realidad aumentada en museos',
+    lab: 'Lab XR',
+    year: '2025–',
+    status: 'En curso',
+  },
+  {
+    id: 4,
+    num: '004',
+    title: 'Métricas de usabilidad en apps de salud',
+    lab: 'Lab UX',
+    year: '2024–2025',
+    status: 'Finalizado',
   },
 ]
 
-export default function Projects() {
+function ProjectRow({ project, index }) {
+  const [ref, inView] = useInView()
   return (
-    <section id="proyectos" className="bg-white py-24 lg:py-32">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
-        <div className="inline-flex items-center gap-2 mb-6">
-          <span className="w-8 h-px bg-[#e47539]" />
-          <span className="text-[#e47539] text-sm font-body uppercase tracking-widest">Investigación aplicada</span>
-        </div>
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-16">
-          <h2 className="font-display font-bold text-4xl lg:text-5xl text-[#142347] leading-tight">
-            Proyectos
+    <div ref={ref} style={{
+      display: 'grid', gridTemplateColumns: '80px 1fr 180px 120px 100px',
+      alignItems: 'center', gap: 24,
+      padding: '20px 0', borderBottom: `1px solid ${B.border}`,
+      transition: `opacity .7s ease, transform .7s ease`,
+      transitionDelay: `${index * .07}s`,
+      opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(20px)',
+    }}>
+      <span style={{
+        fontFamily: 'JetBrains Mono, monospace', fontSize: 11,
+        color: B.muted, letterSpacing: '.1em',
+      }}>{project.num}</span>
+
+      <span style={{
+        fontFamily: 'Space Grotesk, sans-serif', fontSize: 17, fontWeight: 500,
+        letterSpacing: '-.015em', color: B.text,
+      }}>{project.title}</span>
+
+      <span style={{
+        fontFamily: 'Inter, sans-serif', fontSize: 13,
+        color: B.muted,
+      }}>{project.lab}</span>
+
+      <span style={{
+        fontFamily: 'JetBrains Mono, monospace', fontSize: 11,
+        color: B.muted,
+      }}>{project.year}</span>
+
+      <span style={{
+        display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+        padding: '4px 12px', borderRadius: 999,
+        background: project.status === 'En curso' ? `${B.accent}20` : `${B.border}`,
+        border: `1px solid ${project.status === 'En curso' ? B.accent : B.border}`,
+        fontFamily: 'JetBrains Mono, monospace', fontSize: 10,
+        color: project.status === 'En curso' ? B.accent : B.muted,
+        textTransform: 'uppercase', letterSpacing: '.1em',
+      }}>{project.status}</span>
+    </div>
+  )
+}
+
+export default function Projects() {
+  const [ref, inView] = useInView()
+  return (
+    <section id="proyectos" style={{ background: B.bg, color: B.text, padding: '140px 32px' }}>
+      <div style={{ maxWidth: 1280, margin: '0 auto' }}>
+        <div ref={ref} style={{
+          transition: 'opacity .8s ease, transform .8s ease',
+          opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(32px)',
+          marginBottom: 60,
+        }}>
+          <div style={{
+            fontFamily: 'JetBrains Mono, monospace', fontSize: 11,
+            color: B.accent, textTransform: 'uppercase', letterSpacing: '.18em', marginBottom: 14,
+          }}>// Proyectos</div>
+          <h2 style={{
+            fontFamily: 'Space Grotesk, sans-serif', fontWeight: 500,
+            fontSize: 'clamp(40px, 6vw, 88px)', lineHeight: 1,
+            letterSpacing: '-.035em', margin: 0,
+          }}>
+            Investigación<br/>
+            <span style={{ color: B.muted }}>en curso.</span>
           </h2>
-          <p className="font-body text-[#142347]/60 max-w-sm text-sm leading-relaxed">
-            Investigaciones en curso y concluidas de nuestros laboratorios.
-          </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {placeholderProjects.map((project) => (
-            <div
-              key={project.id}
-              className="border border-[#e2e3d7] p-8 hover:border-[#2a7b92] transition-colors duration-200"
-            >
-              {/* Status */}
-              <span className="inline-block text-xs font-body uppercase tracking-widest text-[#2a7b92] mb-4">
-                {project.status}
-              </span>
+        {/* Table header */}
+        <div style={{
+          display: 'grid', gridTemplateColumns: '80px 1fr 180px 120px 100px',
+          gap: 24, padding: '0 0 16px',
+          borderBottom: `1px solid ${B.border}`,
+        }}>
+          {['#', 'Proyecto', 'Laboratorio', 'Período', 'Estado'].map(h => (
+            <span key={h} style={{
+              fontFamily: 'JetBrains Mono, monospace', fontSize: 10,
+              color: B.muted, textTransform: 'uppercase', letterSpacing: '.14em',
+            }}>{h}</span>
+          ))}
+        </div>
 
-              <h3 className="font-display font-semibold text-xl text-[#142347] mb-3 leading-snug">
-                {project.title}
-              </h3>
-              <p className="font-body text-sm text-[#142347]/60 leading-relaxed mb-6">
-                {project.description}
-              </p>
-
-              <div className="flex items-center justify-between text-xs font-body text-[#b2aba9]">
-                <span>{project.lab}</span>
-                <span>{project.year}</span>
-              </div>
-            </div>
+        {/* Rows */}
+        <div>
+          {placeholderProjects.map((p, i) => (
+            <ProjectRow key={p.id} project={p} index={i} />
           ))}
         </div>
       </div>

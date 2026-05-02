@@ -1,42 +1,90 @@
 import { useInView } from '../hooks/useInView'
 
+const B = {
+  bg2: '#10151d', surface: '#161c26', border: '#222a36',
+  text: '#eef0f3', muted: '#8a93a3', accent: '#ff7a3d', accent2: '#7c9eff',
+}
+
 const placeholderNews = [
   {
     id: 1,
-    title: 'Novedades del centro próximamente',
-    excerpt: 'Esta sección se actualizará con las últimas noticias, eventos y actividades del CIFAD y sus laboratorios.',
+    tag: 'General',
+    title: 'Lanzamiento del CIFAD — Centro de Investigación FAD UNCuyo',
+    excerpt: 'El Centro de Investigación de la Facultad de Artes y Diseño inicia actividades con seis laboratorios especializados.',
     date: '2025-11-01',
-    lab: 'General',
+  },
+  {
+    id: 2,
+    tag: 'Laboratorio',
+    title: 'Próximas novedades de los laboratorios',
+    excerpt: 'Cada laboratorio publicará sus investigaciones, eventos y actividades en esta sección.',
+    date: '2025-11-15',
+  },
+  {
+    id: 3,
+    tag: 'Eventos',
+    title: 'Actividades y convocatorias 2026',
+    excerpt: 'Talleres, conferencias y oportunidades de colaboración para investigadores, estudiantes y empresas.',
+    date: '2026-01-01',
   },
 ]
 
-function formatDate(dateStr) {
-  return new Date(dateStr).toLocaleDateString('es-AR', { day: 'numeric', month: 'long', year: 'numeric' })
+function formatDate(str) {
+  return new Date(str).toLocaleDateString('es-AR', { day: 'numeric', month: 'long', year: 'numeric' })
 }
 
 function NewsCard({ item, index }) {
   const [ref, inView] = useInView()
   return (
-    <article
-      ref={ref}
-      className="group border border-[#e2e3d7] hover:border-[#2a7b92] transition-all duration-400 flex flex-col"
-      style={{
-        transition: `opacity 0.7s ease, transform 0.7s ease, border-color 0.3s`,
-        transitionDelay: `${index * 0.1}s`,
-        opacity: inView ? 1 : 0,
-        transform: inView ? 'translateY(0)' : 'translateY(32px)',
-      }}
-    >
-      <div className="bg-[#e2e3d7] aspect-video flex items-center justify-center">
-        <span className="text-[#b2aba9] text-xs font-body">Imagen próximamente</span>
+    <article ref={ref} style={{
+      background: B.surface, border: `1px solid ${B.border}`,
+      borderRadius: 16, overflow: 'hidden',
+      transition: `opacity .7s ease, transform .7s ease`,
+      transitionDelay: `${index * .08}s`,
+      opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(32px)',
+      display: 'flex', flexDirection: 'column',
+    }}>
+      {/* Image placeholder */}
+      <div style={{
+        height: 180, background: `linear-gradient(135deg, ${B.bg2}, ${B.surface})`,
+        border: `0 0 1px 0 solid ${B.border}`,
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        borderBottom: `1px solid ${B.border}`,
+      }}>
+        <span style={{
+          fontFamily: 'JetBrains Mono, monospace', fontSize: 10,
+          color: B.muted, textTransform: 'uppercase', letterSpacing: '.14em',
+        }}>[ imagen ]</span>
       </div>
-      <div className="p-6 flex flex-col flex-1">
-        <span className="text-xs font-body uppercase tracking-widest text-[#2a7b92] mb-3">{item.lab}</span>
-        <h3 className="font-display font-semibold text-lg text-[#142347] group-hover:text-[#2a7b92] transition-colors duration-300 mb-2 leading-snug flex-1">
-          {item.title}
-        </h3>
-        <p className="font-body text-sm text-[#142347]/55 leading-relaxed mb-4">{item.excerpt}</p>
-        <time className="font-body text-xs text-[#b2aba9]">{formatDate(item.date)}</time>
+
+      <div style={{ padding: 24, flex: 1, display: 'flex', flexDirection: 'column' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 14 }}>
+          <span style={{
+            fontFamily: 'JetBrains Mono, monospace', fontSize: 10,
+            color: B.accent, textTransform: 'uppercase', letterSpacing: '.14em',
+          }}>{item.tag}</span>
+        </div>
+
+        <h3 style={{
+          fontFamily: 'Space Grotesk, sans-serif', fontSize: 18, fontWeight: 500,
+          lineHeight: 1.25, letterSpacing: '-.015em',
+          color: B.text, margin: 0, marginBottom: 10, flex: 1,
+        }}>{item.title}</h3>
+
+        <p style={{
+          fontFamily: 'Inter, sans-serif', fontSize: 13, lineHeight: 1.6,
+          color: B.muted, margin: 0, marginBottom: 20,
+        }}>{item.excerpt}</p>
+
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <time style={{
+            fontFamily: 'JetBrains Mono, monospace', fontSize: 11, color: B.muted,
+          }}>{formatDate(item.date)}</time>
+          <span style={{
+            fontFamily: 'Inter, sans-serif', fontSize: 13,
+            color: B.accent2, cursor: 'pointer',
+          }}>Leer →</span>
+        </div>
       </div>
     </article>
   )
@@ -44,44 +92,36 @@ function NewsCard({ item, index }) {
 
 export default function News() {
   const [ref, inView] = useInView()
-
   return (
-    <section id="novedades" className="bg-[#e2e3d7] py-28 lg:py-40">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
-
-        {/* Header */}
-        <div
-          ref={ref}
-          className="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-14"
-          style={{
-            transition: 'opacity 0.8s ease, transform 0.8s ease',
-            opacity: inView ? 1 : 0,
-            transform: inView ? 'translateY(0)' : 'translateY(32px)',
-          }}
-        >
-          <div className="lg:col-span-8">
-            <div className="inline-flex items-center gap-3 mb-6">
-              <span className="w-10 h-px bg-[#e47539]" />
-              <span className="text-[#e47539] text-xs font-body uppercase tracking-widest">Actualidad</span>
-            </div>
-            <h2
-              className="font-display font-black text-[#142347] leading-[0.95]"
-              style={{ fontSize: 'clamp(2.5rem, 5vw, 4.5rem)' }}
-            >
-              Novedades
+    <section id="novedades" style={{ background: B.bg2, color: B.text, padding: '140px 32px' }}>
+      <div style={{ maxWidth: 1280, margin: '0 auto' }}>
+        <div ref={ref} style={{
+          display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end',
+          marginBottom: 60, flexWrap: 'wrap', gap: 24,
+          transition: 'opacity .8s ease, transform .8s ease',
+          opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(32px)',
+        }}>
+          <div>
+            <div style={{
+              fontFamily: 'JetBrains Mono, monospace', fontSize: 11,
+              color: B.accent, textTransform: 'uppercase', letterSpacing: '.18em', marginBottom: 14,
+            }}>// 02 Novedades</div>
+            <h2 style={{
+              fontFamily: 'Space Grotesk, sans-serif', fontWeight: 500,
+              fontSize: 'clamp(40px, 6vw, 88px)', lineHeight: 1, letterSpacing: '-.035em', margin: 0,
+            }}>
+              Últimas<br/>
+              <span style={{ color: B.muted }}>actualizaciones.</span>
             </h2>
           </div>
-          <div className="lg:col-span-4 lg:pt-16 flex items-end justify-end">
-            <a href="#" className="text-sm font-body text-[#2a7b92] hover:text-[#142347] transition-colors inline-flex items-center gap-2">
-              Ver todas
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-              </svg>
-            </a>
-          </div>
+          <a href="#" style={{
+            fontFamily: 'Inter, sans-serif', fontSize: 14,
+            color: B.accent2, textDecoration: 'none',
+            display: 'flex', alignItems: 'center', gap: 6,
+          }}>Ver todas →</a>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16 }}>
           {placeholderNews.map((item, i) => (
             <NewsCard key={item.id} item={item} index={i} />
           ))}

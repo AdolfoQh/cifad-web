@@ -1,102 +1,160 @@
-const audiences = [
-  {
-    title: 'Estudiantes FAD',
-    description: 'Participá en proyectos de investigación, talleres y actividades de los laboratorios.',
-    cta: 'Quiero participar',
-    icon: '🎓',
-  },
-  {
-    title: 'Docentes e investigadores',
-    description: 'Sumá tu línea de investigación o colaborá con los laboratorios existentes.',
-    cta: 'Quiero colaborar',
-    icon: '🔬',
-  },
-  {
-    title: 'Empresas e instituciones',
-    description: 'Desarrollamos proyectos aplicados, transferencia tecnológica y formación.',
-    cta: 'Hablemos',
-    icon: '🤝',
-  },
-]
+import { useState } from 'react'
+import { useInView } from '../hooks/useInView'
+
+const B = {
+  bg: '#0a0e14', surface: '#161c26', border: '#222a36',
+  text: '#eef0f3', muted: '#8a93a3', accent: '#ff7a3d', accent2: '#7c9eff', glow: '#5e98c2',
+}
 
 export default function Contact() {
+  const [ref, inView] = useInView()
+  const [focused, setFocused] = useState(null)
+
+  const inputStyle = (name) => ({
+    width: '100%', background: B.surface,
+    border: `1px solid ${focused === name ? B.accent : B.border}`,
+    borderRadius: 10, padding: '14px 16px',
+    fontFamily: 'Inter, sans-serif', fontSize: 14,
+    color: B.text, outline: 'none',
+    transition: 'border-color .3s',
+  })
+
   return (
-    <section id="contacto" className="bg-[#e2e3d7] py-24 lg:py-32">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
-        <div className="inline-flex items-center gap-2 mb-6">
-          <span className="w-8 h-px bg-[#e47539]" />
-          <span className="text-[#e47539] text-sm font-body uppercase tracking-widest">Sumarse</span>
-        </div>
-        <div className="flex flex-col lg:flex-row gap-16 items-start">
-          {/* Texto */}
-          <div className="lg:w-1/2">
-            <h2 className="font-display font-bold text-4xl lg:text-5xl text-[#142347] leading-tight mb-6">
-              ¿Querés ser parte del CIFAD?
-            </h2>
-            <p className="font-body text-[#142347]/70 text-lg leading-relaxed">
-              El centro está abierto a la participación de estudiantes, docentes,
-              graduados, empresas e instituciones interesadas en la investigación
-              y la innovación en tecnologías emergentes.
-            </p>
-          </div>
-
-          {/* Cards de audiencia */}
-          <div className="lg:w-1/2 space-y-4">
-            {audiences.map((audience) => (
-              <div
-                key={audience.title}
-                className="bg-white p-6 flex items-start gap-4 group hover:shadow-md transition-shadow duration-200"
-              >
-                <span className="text-2xl">{audience.icon}</span>
-                <div className="flex-1">
-                  <h3 className="font-display font-semibold text-[#142347] mb-1">{audience.title}</h3>
-                  <p className="font-body text-sm text-[#142347]/60">{audience.description}</p>
-                </div>
-                <button className="text-sm font-body text-[#2a7b92] hover:text-[#142347] transition-colors shrink-0">
-                  {audience.cta} →
-                </button>
-              </div>
-            ))}
-          </div>
+    <section id="contacto" style={{ background: B.bg, color: B.text, padding: '140px 32px' }}>
+      <div style={{ maxWidth: 1280, margin: '0 auto' }}>
+        {/* Header */}
+        <div ref={ref} style={{
+          transition: 'opacity .8s ease, transform .8s ease',
+          opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(32px)',
+          marginBottom: 80,
+        }}>
+          <div style={{
+            fontFamily: 'JetBrains Mono, monospace', fontSize: 11,
+            color: B.accent, textTransform: 'uppercase', letterSpacing: '.18em', marginBottom: 14,
+          }}>// 07 Contacto</div>
+          <h2 style={{
+            fontFamily: 'Space Grotesk, sans-serif', fontWeight: 500,
+            fontSize: 'clamp(60px, 10vw, 160px)', lineHeight: .95,
+            letterSpacing: '-.04em', margin: 0,
+          }}>
+            <span style={{
+              background: `linear-gradient(95deg, ${B.accent} 0%, ${B.accent2} 50%, ${B.glow} 100%)`,
+              WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
+            }}>Hablemos.</span>
+          </h2>
         </div>
 
-        {/* Formulario / Contacto directo */}
-        <div className="mt-20 bg-[#142347] p-10 lg:p-16 grid grid-cols-1 lg:grid-cols-2 gap-12">
+        {/* Content grid */}
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.5fr', gap: 80, alignItems: 'start' }}>
+          {/* Left: info */}
           <div>
-            <h3 className="font-display font-bold text-3xl text-white mb-4">Contacto directo</h3>
-            <p className="font-body text-[#e2e3d7]/70 text-sm leading-relaxed">
-              Escribinos para consultas, propuestas de colaboración o información
-              sobre los laboratorios y actividades del centro.
+            <p style={{
+              fontFamily: 'Inter, sans-serif', fontSize: 18, lineHeight: 1.6,
+              color: B.muted, marginBottom: 48,
+            }}>
+              Investigación aplicada, consultoría en UX, formación o simplemente una propuesta de colaboración.
+              Estamos abiertos.
             </p>
-            <div className="mt-8 space-y-3 text-sm font-body text-[#e2e3d7]/70">
-              <p>Facultad de Artes y Diseño · UNCuyo</p>
-              <p>Mendoza, Argentina</p>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+              {[
+                { label: 'Institución', value: 'Facultad de Artes y Diseño · UNCuyo' },
+                { label: 'Ubicación', value: 'Mendoza, Argentina' },
+                { label: 'Email', value: 'cifad@fad.uncuyo.edu.ar' },
+              ].map(item => (
+                <div key={item.label}>
+                  <div style={{
+                    fontFamily: 'JetBrains Mono, monospace', fontSize: 10,
+                    color: B.muted, textTransform: 'uppercase', letterSpacing: '.15em', marginBottom: 4,
+                  }}>{item.label}</div>
+                  <div style={{ fontFamily: 'Inter, sans-serif', fontSize: 15, color: B.text }}>
+                    {item.value}
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
 
-          <form className="space-y-4">
-            <div className="grid grid-cols-2 gap-4">
+          {/* Right: form */}
+          <form style={{
+            background: B.surface, border: `1px solid ${B.border}`,
+            borderRadius: 24, padding: 40,
+          }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 16 }}>
+              <div>
+                <label style={{
+                  display: 'block', fontFamily: 'JetBrains Mono, monospace',
+                  fontSize: 10, color: B.muted, textTransform: 'uppercase',
+                  letterSpacing: '.12em', marginBottom: 8,
+                }}>Nombre</label>
+                <input
+                  type="text"
+                  placeholder="Tu nombre"
+                  style={{ ...inputStyle('name'), '::placeholder': { color: B.muted } }}
+                  onFocus={() => setFocused('name')}
+                  onBlur={() => setFocused(null)}
+                />
+              </div>
+              <div>
+                <label style={{
+                  display: 'block', fontFamily: 'JetBrains Mono, monospace',
+                  fontSize: 10, color: B.muted, textTransform: 'uppercase',
+                  letterSpacing: '.12em', marginBottom: 8,
+                }}>Email</label>
+                <input
+                  type="email"
+                  placeholder="tu@email.com"
+                  style={inputStyle('email')}
+                  onFocus={() => setFocused('email')}
+                  onBlur={() => setFocused(null)}
+                />
+              </div>
+            </div>
+
+            <div style={{ marginBottom: 16 }}>
+              <label style={{
+                display: 'block', fontFamily: 'JetBrains Mono, monospace',
+                fontSize: 10, color: B.muted, textTransform: 'uppercase',
+                letterSpacing: '.12em', marginBottom: 8,
+              }}>Asunto</label>
               <input
                 type="text"
-                placeholder="Nombre"
-                className="bg-white/10 border border-white/20 text-white placeholder:text-white/40 font-body text-sm px-4 py-3 focus:outline-none focus:border-[#5e98c2] transition-colors w-full"
-              />
-              <input
-                type="email"
-                placeholder="Email"
-                className="bg-white/10 border border-white/20 text-white placeholder:text-white/40 font-body text-sm px-4 py-3 focus:outline-none focus:border-[#5e98c2] transition-colors w-full"
+                placeholder="¿De qué se trata?"
+                style={inputStyle('subject')}
+                onFocus={() => setFocused('subject')}
+                onBlur={() => setFocused(null)}
               />
             </div>
-            <textarea
-              rows={4}
-              placeholder="Tu mensaje..."
-              className="bg-white/10 border border-white/20 text-white placeholder:text-white/40 font-body text-sm px-4 py-3 focus:outline-none focus:border-[#5e98c2] transition-colors w-full resize-none"
-            />
+
+            <div style={{ marginBottom: 28 }}>
+              <label style={{
+                display: 'block', fontFamily: 'JetBrains Mono, monospace',
+                fontSize: 10, color: B.muted, textTransform: 'uppercase',
+                letterSpacing: '.12em', marginBottom: 8,
+              }}>Mensaje</label>
+              <textarea
+                rows={5}
+                placeholder="Contanos tu idea o consulta..."
+                style={{ ...inputStyle('message'), resize: 'none' }}
+                onFocus={() => setFocused('message')}
+                onBlur={() => setFocused(null)}
+              />
+            </div>
+
             <button
               type="submit"
-              className="bg-[#e47539] hover:bg-[#e47539]/90 text-white font-body font-medium px-8 py-3 transition-colors duration-200"
+              style={{
+                background: B.accent, color: B.bg,
+                border: 'none', borderRadius: 10,
+                padding: '14px 32px',
+                fontFamily: 'Space Grotesk, sans-serif', fontWeight: 600, fontSize: 15,
+                cursor: 'pointer', transition: 'opacity .3s',
+                display: 'inline-flex', alignItems: 'center', gap: 8,
+              }}
+              onMouseEnter={e => e.currentTarget.style.opacity = '.85'}
+              onMouseLeave={e => e.currentTarget.style.opacity = '1'}
             >
-              Enviar mensaje
+              Enviar mensaje ↗
             </button>
           </form>
         </div>

@@ -1,104 +1,189 @@
-import { useEffect, useState } from 'react'
-import marcaSvg from '../assets/marca.svg'
+import { useRef, useState, useEffect } from 'react'
+import { useInView } from '../hooks/useInView'
+import { stats } from '../data/stats'
+import { technologies } from '../data/researchAreas'
+
+const B = {
+  bg: '#0a0e14', bg2: '#10151d', surface: '#161c26', border: '#222a36',
+  text: '#eef0f3', muted: '#8a93a3', accent: '#ff7a3d', accent2: '#7c9eff', glow: '#5e98c2',
+}
+
+function FadeIn({ children, delay = 0, style = {} }) {
+  const [ref, inView] = useInView()
+  return (
+    <div ref={ref} style={{
+      transition: `opacity .8s ease, transform .8s ease`,
+      transitionDelay: `${delay}s`,
+      opacity: inView ? 1 : 0,
+      transform: inView ? 'translateY(0)' : 'translateY(28px)',
+      ...style,
+    }}>{children}</div>
+  )
+}
 
 export default function Hero() {
-  const [visible, setVisible] = useState(false)
+  const sectionRef = useRef(null)
+  const [mouse, setMouse] = useState({ x: 0.5, y: 0.5 })
+  const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
-    const t = setTimeout(() => setVisible(true), 100)
+    const t = setTimeout(() => setMounted(true), 80)
     return () => clearTimeout(t)
   }, [])
 
+  useEffect(() => {
+    const onMove = (e) => {
+      if (!sectionRef.current) return
+      const r = sectionRef.current.getBoundingClientRect()
+      setMouse({ x: (e.clientX - r.left) / r.width, y: (e.clientY - r.top) / r.height })
+    }
+    const el = sectionRef.current
+    el?.addEventListener('mousemove', onMove)
+    return () => el?.removeEventListener('mousemove', onMove)
+  }, [])
+
   return (
-    <section className="relative min-h-screen bg-[#142347] flex flex-col justify-between overflow-hidden">
+    <section ref={sectionRef} style={{
+      background: B.bg, color: B.text,
+      position: 'relative', minHeight: '100vh',
+      overflow: 'hidden', paddingTop: 120,
+    }}>
+      {/* Aurora */}
+      <div style={{
+        position: 'absolute', inset: 0, pointerEvents: 'none',
+        background: `
+          radial-gradient(circle at ${mouse.x * 100}% ${mouse.y * 100}%, ${B.accent}22 0%, transparent 40%),
+          radial-gradient(circle at ${(1 - mouse.x) * 100}% ${(1 - mouse.y) * 100}%, ${B.accent2}1f 0%, transparent 50%),
+          radial-gradient(circle at 80% 20%, ${B.glow}1a 0%, transparent 35%)
+        `,
+        transition: 'background .5s ease',
+      }}/>
 
-      {/* Contenido principal */}
-      <div className="flex-1 flex flex-col justify-center max-w-7xl mx-auto w-full px-6 lg:px-8 pt-28 pb-16">
+      {/* Grid */}
+      <div style={{
+        position: 'absolute', inset: 0, pointerEvents: 'none', opacity: .2,
+        backgroundImage: `linear-gradient(${B.border} 1px, transparent 1px), linear-gradient(90deg, ${B.border} 1px, transparent 1px)`,
+        backgroundSize: '60px 60px',
+        maskImage: 'radial-gradient(ellipse at center, black 30%, transparent 75%)',
+        WebkitMaskImage: 'radial-gradient(ellipse at center, black 30%, transparent 75%)',
+      }}/>
 
-        {/* Logo — versión blanca para fondo oscuro */}
-        <div
-          className="mb-16 transition-all duration-700 ease-out"
-          style={{
-            opacity: visible ? 1 : 0,
-            transform: visible ? 'translateY(0)' : 'translateY(16px)',
-          }}
-        >
-          <img
-            src={marcaSvg}
-            alt="CIFAD — Centro de Investigación en Tecnologías Emergentes"
-            className="h-16 lg:h-20 w-auto"
-            style={{ filter: 'brightness(0) invert(1)' }}
-          />
-        </div>
-
-        {/* Título */}
-        <div className="max-w-5xl">
-          <h1
-            className="font-display font-black leading-[0.9] mb-10"
-            style={{
-              fontSize: 'clamp(3.5rem, 9vw, 8rem)',
-              color: '#e2e3d7',
-              transition: 'opacity 0.9s ease, transform 0.9s ease',
-              transitionDelay: '0.15s',
-              opacity: visible ? 1 : 0,
-              transform: visible ? 'translateY(0)' : 'translateY(24px)',
-            }}
-          >
-            Investigación<br />
-            centrada en<br />
-            <em style={{ fontStyle: 'italic', color: '#e47539' }}>las personas.</em>
-          </h1>
-
-          {/* Bajada — desplazada a la derecha */}
-          <div
-            className="ml-auto max-w-lg"
-            style={{
-              transition: 'opacity 0.9s ease, transform 0.9s ease',
-              transitionDelay: '0.3s',
-              opacity: visible ? 1 : 0,
-              transform: visible ? 'translateY(0)' : 'translateY(24px)',
-            }}
-          >
-            <p className="font-body text-lg text-[#e2e3d7]/60 leading-relaxed mb-8">
-              Desarrollamos soluciones en UX y tecnologías emergentes desde
-              la Facultad de Artes y Diseño de la UNCuyo.
-            </p>
-            <div className="flex flex-wrap gap-4">
-              <a
-                href="#laboratorios"
-                className="inline-flex items-center gap-2 bg-[#e47539] hover:bg-[#e47539]/90 text-white font-body font-medium px-8 py-3.5 transition-colors duration-300"
-              >
-                Laboratorios
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                </svg>
-              </a>
-              <a
-                href="#sobre"
-                className="inline-flex items-center gap-2 border border-[#e2e3d7]/30 hover:border-[#e2e3d7]/60 text-[#e2e3d7] font-body font-medium px-8 py-3.5 transition-colors duration-300"
-              >
-                Sobre el Centro
-              </a>
-            </div>
+      <div style={{ maxWidth: 1280, margin: '0 auto', padding: '40px 32px', position: 'relative' }}>
+        {/* Badge */}
+        <div style={{
+          transition: 'opacity .7s ease, transform .7s ease',
+          opacity: mounted ? 1 : 0,
+          transform: mounted ? 'translateY(0)' : 'translateY(16px)',
+        }}>
+          <div style={{
+            display: 'inline-flex', alignItems: 'center', gap: 10,
+            padding: '6px 14px 6px 8px', borderRadius: 999,
+            background: B.surface, border: `1px solid ${B.border}`,
+            fontFamily: 'JetBrains Mono, monospace', fontSize: 11,
+            color: B.muted, marginBottom: 36,
+          }}>
+            <span style={{ width: 6, height: 6, borderRadius: '50%', background: B.accent, boxShadow: `0 0 12px ${B.accent}` }}/>
+            CiFAD · UNCuyo · Investigación abierta 2026
           </div>
         </div>
-      </div>
 
-      {/* Barra inferior */}
-      <div
-        className="border-t border-white/10 max-w-7xl mx-auto w-full px-6 lg:px-8 py-5 flex justify-between items-center"
-        style={{
-          transition: 'opacity 0.9s ease',
-          transitionDelay: '0.5s',
-          opacity: visible ? 1 : 0,
-        }}
-      >
-        <span className="font-body text-xs text-[#e2e3d7]/30 uppercase tracking-widest">FAD · UNCuyo · Mendoza</span>
-        <div className="flex items-center gap-2 text-[#e2e3d7]/30">
-          <span className="font-body text-xs uppercase tracking-widest">Scroll</span>
-          <svg className="w-4 h-4 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 9l-7 7-7-7" />
-          </svg>
+        {/* Heading */}
+        <div style={{
+          transition: 'opacity .9s ease, transform .9s ease',
+          transitionDelay: '.1s',
+          opacity: mounted ? 1 : 0,
+          transform: mounted ? 'translateY(0)' : 'translateY(28px)',
+        }}>
+          <h1 style={{
+            fontFamily: 'Space Grotesk, sans-serif', fontWeight: 500,
+            fontSize: 'clamp(48px, 8.5vw, 140px)',
+            lineHeight: .92, letterSpacing: '-.045em',
+            color: B.text, margin: 0, maxWidth: 1100,
+          }}>
+            Tecnología emergente,{' '}
+            <span style={{
+              background: `linear-gradient(95deg, ${B.accent} 0%, ${B.accent2} 50%, ${B.glow} 100%)`,
+              WebkitBackgroundClip: 'text', backgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              fontStyle: 'italic', fontWeight: 400,
+            }}>centrada en humanos.</span>
+          </h1>
+        </div>
+
+        {/* Bajada + stats */}
+        <div style={{
+          marginTop: 48,
+          display: 'grid', gridTemplateColumns: '2fr 1fr', gap: 60,
+          alignItems: 'end',
+          transition: 'opacity .9s ease, transform .9s ease',
+          transitionDelay: '.25s',
+          opacity: mounted ? 1 : 0,
+          transform: mounted ? 'translateY(0)' : 'translateY(28px)',
+        }}>
+          <div>
+            <p style={{
+              fontFamily: 'Inter, sans-serif', fontSize: 18, lineHeight: 1.6,
+              color: B.muted, maxWidth: 580, margin: 0,
+            }}>
+              Centro de investigación de la FAD UNCuyo especializado en UX y tecnologías emergentes.
+              Seis laboratorios. Veinte investigadores. Una pregunta: ¿cómo hacemos que la innovación
+              mejore la vida real de la gente?
+            </p>
+            <div style={{ marginTop: 32, display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+              <a href="#laboratorios" style={{
+                background: B.text, color: B.bg, border: 'none',
+                padding: '14px 22px', cursor: 'pointer',
+                fontFamily: 'Inter, sans-serif', fontSize: 14, fontWeight: 500,
+                borderRadius: 999, display: 'inline-flex', alignItems: 'center', gap: 8,
+                textDecoration: 'none',
+              }}>Explorar laboratorios →</a>
+              <a href="#servicios" style={{
+                background: 'transparent', color: B.text,
+                border: `1px solid ${B.border}`,
+                padding: '14px 22px', cursor: 'pointer',
+                fontFamily: 'Inter, sans-serif', fontSize: 14, fontWeight: 500,
+                borderRadius: 999, display: 'inline-flex', alignItems: 'center', gap: 8,
+                textDecoration: 'none',
+              }}>Servicios de consultoría</a>
+            </div>
+          </div>
+
+          {/* Stats 2×2 */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 24 }}>
+            {stats.map(s => (
+              <div key={s.label} style={{ borderTop: `1px solid ${B.border}`, paddingTop: 14 }}>
+                <div style={{
+                  fontFamily: 'Space Grotesk, sans-serif', fontSize: 34,
+                  fontWeight: 500, color: B.text, lineHeight: 1, letterSpacing: '-.02em',
+                }}>{s.value}</div>
+                <div style={{
+                  fontFamily: 'Inter, sans-serif', fontSize: 12,
+                  color: B.muted, marginTop: 6,
+                }}>{s.label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Tech chips */}
+        <div style={{
+          marginTop: 80, paddingTop: 24, borderTop: `1px solid ${B.border}`,
+          transition: 'opacity .9s ease', transitionDelay: '.4s',
+          opacity: mounted ? 1 : 0,
+        }}>
+          <div style={{
+            fontFamily: 'JetBrains Mono, monospace', fontSize: 10,
+            color: B.muted, letterSpacing: '.15em', textTransform: 'uppercase', marginBottom: 16,
+          }}>// Tecnologías que investigamos</div>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+            {technologies.map(t => (
+              <span key={t} style={{
+                fontFamily: 'JetBrains Mono, monospace', fontSize: 12,
+                padding: '6px 14px', borderRadius: 999,
+                background: B.surface, border: `1px solid ${B.border}`, color: B.muted,
+              }}>{t}</span>
+            ))}
+          </div>
         </div>
       </div>
     </section>

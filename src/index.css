@@ -1,47 +1,35 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@300;400;500;600;700;800;900&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
 
 @import "tailwindcss";
 
 @theme {
-  /* Paleta CIFAD */
-  --color-cifad-dark:    #142347;
-  --color-cifad-blue:    #2a7b92;
-  --color-cifad-sky:     #5e98c2;
-  --color-cifad-orange:  #e47539;
-  --color-cifad-beige:   #e2e3d7;
-  --color-cifad-gray:    #b2aba9;
+  --color-bg:        #0a0e14;
+  --color-bg2:       #10151d;
+  --color-surface:   #161c26;
+  --color-border:    #222a36;
+  --color-text:      #eef0f3;
+  --color-muted:     #8a93a3;
+  --color-accent:    #ff7a3d;
+  --color-accent2:   #7c9eff;
+  --color-glow:      #5e98c2;
 
-  /* Logo original */
-  --color-brand-orange:  #f7941d;
-  --color-brand-blue:    #21409a;
-  --color-brand-gray:    #939598;
-
-  /* Tipografía */
-  --font-display: 'Roboto Slab', serif;
-  --font-body:    'Roboto', sans-serif;
+  --font-display: 'Space Grotesk', sans-serif;
+  --font-body:    'Inter', sans-serif;
+  --font-mono:    'JetBrains Mono', monospace;
 }
 
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
-html {
-  scroll-behavior: smooth;
-}
+html { scroll-behavior: smooth; }
 
 body {
   margin: 0;
   font-family: var(--font-body);
-  color: var(--color-cifad-dark);
-  background-color: #ffffff;
+  background: #0a0e14;
+  color: #eef0f3;
   -webkit-font-smoothing: antialiased;
 }
 
-#root {
-  width: 100%;
-  min-height: 100svh;
-}
+#root { width: 100%; min-height: 100svh; }
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-display);
-}
+::selection { background: #ff7a3d; color: #0a0e14; }
