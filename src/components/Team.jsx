@@ -37,17 +37,20 @@ function GroupCard({ group, index }) {
       transitionDelay: `${index * .1}s`,
       opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(32px)',
     }}>
-      {/* Imagen */}
-      <div style={{ height: 220, overflow: 'hidden' }}>
-        <img
-          src={group.image}
-          alt={group.label}
-          style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }}
-        />
-      </div>
-
       {/* Info */}
       <div style={{ padding: 28 }}>
+        {/* Imagen circular */}
+        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 20 }}>
+          <img
+            src={group.image}
+            alt={group.label}
+            style={{
+              width: 120, height: 120, borderRadius: '50%',
+              objectFit: 'cover', objectPosition: 'center',
+              border: `2px solid ${B.border}`,
+            }}
+          />
+        </div>
         <div style={{
           fontFamily: 'JetBrains Mono, monospace', fontSize: 10,
           color: B.accent, textTransform: 'uppercase', letterSpacing: '.15em', marginBottom: 16,
