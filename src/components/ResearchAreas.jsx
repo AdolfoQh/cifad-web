@@ -21,14 +21,20 @@ export default function ResearchAreas() {
           <div style={{
             fontFamily: 'JetBrains Mono, monospace', fontSize: 11,
             color: B.accent, textTransform: 'uppercase', letterSpacing: '.18em', marginBottom: 14,
-          }}>// 04 Líneas de investigación</div>
+          }}>// 04 Investigación</div>
           <h2 style={{
             fontFamily: 'Space Grotesk, sans-serif', fontWeight: 500,
             fontSize: 'clamp(40px, 6vw, 88px)', lineHeight: 1,
-            letterSpacing: '-.035em', margin: 0, marginBottom: 60, maxWidth: 900,
+            letterSpacing: '-.035em', margin: 0, marginBottom: 16, maxWidth: 900,
           }}>
-            Cuatro vectores<br/>de investigación aplicada.
+            Vectores de investigación.
           </h2>
+          <p style={{
+            fontFamily: 'Inter, sans-serif', fontSize: 18, lineHeight: 1.6,
+            color: B.muted, maxWidth: 600, margin: '0 0 60px',
+          }}>
+            Ecosistema de trabajo que activa conocimiento y lo valida.
+          </p>
         </div>
 
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.5fr', gap: 60 }}>
@@ -41,7 +47,7 @@ export default function ResearchAreas() {
                 borderBottom: i === researchAreas.length - 1 ? `1px solid ${B.border}` : 'none',
                 padding: '24px 0', cursor: 'pointer', textAlign: 'left',
                 color: active === i ? B.text : B.muted,
-                fontFamily: 'Space Grotesk, sans-serif', fontSize: 26, fontWeight: 500,
+                fontFamily: 'Space Grotesk, sans-serif', fontSize: 22, fontWeight: 500,
                 letterSpacing: '-.02em', transition: 'color .3s',
                 display: 'flex', alignItems: 'center', gap: 16,
               }}>
@@ -72,21 +78,29 @@ export default function ResearchAreas() {
                 color: B.accent, letterSpacing: '.15em', marginBottom: 20,
               }}>0{active + 1} / 0{researchAreas.length}</div>
               <h3 style={{
-                fontFamily: 'Space Grotesk, sans-serif', fontSize: 40, fontWeight: 500,
-                lineHeight: 1, letterSpacing: '-.02em', margin: 0, marginBottom: 20,
+                fontFamily: 'Space Grotesk, sans-serif', fontSize: 36, fontWeight: 500,
+                lineHeight: 1.05, letterSpacing: '-.02em', margin: 0, marginBottom: 16,
               }}>{researchAreas[active].name}</h3>
               <p style={{
-                fontFamily: 'Inter, sans-serif', fontSize: 17, lineHeight: 1.65,
+                fontFamily: 'Inter, sans-serif', fontSize: 16, lineHeight: 1.65,
                 color: B.muted, margin: 0,
               }}>{researchAreas[active].description}</p>
+
+              {/* Imagen representativa */}
               <div style={{
-                marginTop: 32, height: 140, borderRadius: 12,
-                background: `linear-gradient(135deg, ${B.bg}, ${B.bg})`,
-                border: `1px solid ${B.border}`,
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                fontFamily: 'JetBrains Mono, monospace', fontSize: 11,
-                color: B.muted, letterSpacing: '.12em', textTransform: 'uppercase',
-              }}>[ proyecto representativo ]</div>
+                marginTop: 28, height: 160, borderRadius: 12,
+                overflow: 'hidden', border: `1px solid ${B.border}`,
+              }}>
+                <img
+                  src={researchAreas[active].image}
+                  alt={researchAreas[active].name}
+                  style={{
+                    width: '100%', height: '100%',
+                    objectFit: 'cover', objectPosition: 'center',
+                    transition: 'opacity .4s ease',
+                  }}
+                />
+              </div>
             </div>
           </div>
         </div>

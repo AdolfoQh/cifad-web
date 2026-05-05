@@ -1,27 +1,33 @@
 export const researchAreas = [
   {
     id: 1,
-    name: 'User Research',
-    description: 'Estudios de usuarios para identificar necesidades, preferencias y comportamientos frente a tecnologías emergentes.',
-    icon: 'users',
+    name: 'Color y construcción de sentido',
+    description: 'Investiga el color como sistema conceptual y cultural, explorando su rol en la construcción de significados sociales, proyectuales y comunicacionales.',
+    image: '/images/investigacion/color.jpg',
   },
   {
     id: 2,
-    name: 'Arquitectura de Información',
-    description: 'Organización y estructuración de contenidos para optimizar la experiencia del usuario en sistemas complejos.',
-    icon: 'sitemap',
+    name: 'Persona y tecnología',
+    description: 'Estudia cómo las personas se relacionan con la tecnología, qué sentidos construyen, cómo la incorporan y qué transformaciones genera en sus prácticas cotidianas y profesionales.',
+    image: '/images/investigacion/persona.jpg',
   },
   {
     id: 3,
-    name: 'Diseño de Interacción',
-    description: 'Diseño y evaluación de interfaces y flujos de interacción centrados en el usuario.',
-    icon: 'cursor',
+    name: 'Experimentación proyectual',
+    description: 'Aborda la experimentación como método central de investigación y producción en diseño, explorando materiales, formas, lenguajes y procesos desde una práctica situada y reflexiva.',
+    image: '/images/investigacion/proyectual.jpg',
   },
   {
     id: 4,
-    name: 'Diseño Visual',
-    description: 'Investigación sobre percepción visual, color, tipografía y comunicación no verbal en entornos digitales.',
-    icon: 'eye',
+    name: 'Transferencia e innovación',
+    description: 'Vincula el conocimiento generado en el centro con el sector productivo, promoviendo la aplicación de resultados de investigación en contextos industriales, institucionales y sociales.',
+    image: '/images/investigacion/transferencia.jpg',
+  },
+  {
+    id: 5,
+    name: 'Sostenibilidad',
+    description: 'Explora materiales, procesos y sistemas de diseño orientados a la economía circular y el uso responsable de recursos, con anclaje en la industria y el territorio regional.',
+    image: '/images/investigacion/sostenibilidad.jpg',
   },
 ]
 

@@ -7,19 +7,19 @@ export const stats = [
 
 export const services = [
   {
-    title: 'Investigación aplicada',
-    description: 'Desarrollamos estudios de usuario, evaluaciones de usabilidad y análisis de experiencia para productos y servicios tecnológicos.',
+    title: 'Investigación colaborativa',
+    description: 'Desarrollamos proyectos de investigación y transferencia a empresas, instituciones y organizaciones, aportando metodología, conocimiento académico y perspectiva proyectual a problemas concretos.',
   },
   {
-    title: 'Consultoría en UX',
-    description: 'Asesoramiento especializado en diseño de interacción, arquitectura de información y diseño centrado en el usuario.',
+    title: 'Formación',
+    description: 'Diseñamos y facilitamos talleres, seminarios y programas de capacitación para empresas e instituciones.',
   },
   {
-    title: 'Formación y talleres',
-    description: 'Capacitación en tecnologías emergentes, UX y diseño de interfaces para equipos de empresas e instituciones.',
+    title: 'Consultoría',
+    description: 'Acompañamos procesos de innovación en empresas e instituciones, aportando perspectiva proyectual y conocimiento aplicado para orientar decisiones sobre tecnología y diseño.',
   },
   {
-    title: 'Transferencia tecnológica',
-    description: 'Vinculamos el conocimiento académico con necesidades concretas de la industria regional y nacional.',
+    title: 'Transferencia',
+    description: 'Conectamos el conocimiento generado en el centro con el sector productivo, promoviendo su aplicación en contextos industriales, institucionales y sociales.',
   },
 ]

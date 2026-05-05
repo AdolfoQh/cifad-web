@@ -100,13 +100,13 @@ export default function Hero() {
             lineHeight: .92, letterSpacing: '-.045em',
             color: B.text, margin: 0, maxWidth: 1100,
           }}>
-            Tecnología emergente,{' '}
+            Cuando la tecnología<br/>
             <span style={{
               background: `linear-gradient(95deg, ${B.accent} 0%, ${B.accent2} 50%, ${B.glow} 100%)`,
               WebkitBackgroundClip: 'text', backgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               fontStyle: 'italic', fontWeight: 400,
-            }}>centrada en humanos.</span>
+            }}>cobra sentido.</span>
           </h1>
         </div>
 

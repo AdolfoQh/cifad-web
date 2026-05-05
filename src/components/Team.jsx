@@ -6,8 +6,73 @@ const B = {
   text: '#eef0f3', muted: '#8a93a3', accent: '#ff7a3d', accent2: '#7c9eff',
 }
 
-function initials(name) {
-  return name.split(' ').filter(w => w.length > 2).slice(-2).map(w => w[0]).join('')
+const groups = [
+  {
+    key: 'coordinacion',
+    label: 'Coordinación',
+    image: '/images/equipo/coordinacion.jpg',
+    members: team,
+  },
+  {
+    key: 'docentes',
+    label: 'Investigadores docentes',
+    image: '/images/equipo/profesores.jpg',
+    members: researchers.filter(r => r.category === 'docente'),
+  },
+  {
+    key: 'egresados',
+    label: 'Investigadores graduados',
+    image: '/images/equipo/egresados.jpg',
+    members: researchers.filter(r => r.category === 'graduado'),
+  },
+]
+
+function GroupCard({ group, index }) {
+  const [ref, inView] = useInView()
+  return (
+    <div ref={ref} style={{
+      background: B.surface, border: `1px solid ${B.border}`,
+      borderRadius: 20, overflow: 'hidden',
+      transition: `opacity .7s ease, transform .7s ease`,
+      transitionDelay: `${index * .1}s`,
+      opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(32px)',
+    }}>
+      {/* Imagen */}
+      <div style={{ height: 220, overflow: 'hidden' }}>
+        <img
+          src={group.image}
+          alt={group.label}
+          style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }}
+        />
+      </div>
+
+      {/* Info */}
+      <div style={{ padding: 28 }}>
+        <div style={{
+          fontFamily: 'JetBrains Mono, monospace', fontSize: 10,
+          color: B.accent, textTransform: 'uppercase', letterSpacing: '.15em', marginBottom: 16,
+        }}>{group.label}</div>
+
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+          {group.members.map((m, i) => (
+            <div key={m.name} style={{
+              fontFamily: 'Inter, sans-serif', fontSize: 13,
+              color: B.muted, padding: '8px 0',
+              borderBottom: i < group.members.length - 1 ? `1px solid ${B.border}` : 'none',
+              display: 'flex', alignItems: 'baseline', gap: 8,
+            }}>
+              <span style={{ color: B.text }}>{m.name}</span>
+              {m.role && (
+                <span style={{ fontSize: 11, color: B.muted + 'aa', flexShrink: 0 }}>
+                  {m.role}
+                </span>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  )
 }
 
 export default function Team() {
@@ -33,41 +98,9 @@ export default function Team() {
           </h2>
         </div>
 
-        {/* Dirección */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 16, marginBottom: 32 }}>
-          {team.map(m => (
-            <div key={m.name} style={{
-              background: B.surface, border: `1px solid ${B.border}`,
-              borderRadius: 16, padding: 24,
-              display: 'flex', alignItems: 'center', gap: 16,
-            }}>
-              <div style={{
-                width: 56, height: 56, borderRadius: '50%', flexShrink: 0,
-                background: `linear-gradient(135deg, ${B.accent}, ${B.accent2})`,
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                fontFamily: 'Space Grotesk, sans-serif', fontWeight: 700,
-                fontSize: 18, color: B.bg,
-              }}>{initials(m.name)}</div>
-              <div>
-                <div style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 500, fontSize: 16, color: B.text }}>{m.name}</div>
-                <div style={{ fontFamily: 'Inter, sans-serif', fontSize: 13, color: B.muted, marginTop: 2 }}>{m.role}</div>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Investigadores */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12, marginBottom: 48 }}>
-          {researchers.map(m => (
-            <div key={m.name} style={{
-              padding: 16, borderRadius: 12,
-              border: `1px solid ${B.border}`,
-              background: B.surface + '80',
-            }}>
-              <div style={{ fontFamily: 'Inter, sans-serif', fontSize: 14, fontWeight: 500, color: B.text }}>{m.name}</div>
-              <div style={{ fontFamily: 'Inter, sans-serif', fontSize: 12, color: B.muted, marginTop: 2 }}>{m.role}</div>
-            </div>
-          ))}
+        {/* Grupos con imagen */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16, marginBottom: 48 }}>
+          {groups.map((g, i) => <GroupCard key={g.key} group={g} index={i} />)}
         </div>
 
         {/* Colaboraciones internacionales */}
@@ -82,9 +115,18 @@ export default function Team() {
                 padding: 24, borderRadius: 16,
                 background: B.surface, border: `1px solid ${B.border}`,
               }}>
-                <div style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 500, fontSize: 18, color: B.text, marginBottom: 4 }}>{c.name}</div>
-                <div style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 11, color: B.accent, letterSpacing: '.1em' }}>{c.country.toUpperCase()}</div>
-                <div style={{ fontFamily: 'Inter, sans-serif', fontSize: 13, color: B.muted, marginTop: 10 }}>{c.area}</div>
+                <div style={{
+                  fontFamily: 'Space Grotesk, sans-serif', fontWeight: 500,
+                  fontSize: 18, color: B.text, marginBottom: 4,
+                }}>{c.name}</div>
+                <div style={{
+                  fontFamily: 'JetBrains Mono, monospace', fontSize: 11,
+                  color: B.accent, letterSpacing: '.1em',
+                }}>{c.country.toUpperCase()}</div>
+                <div style={{
+                  fontFamily: 'Inter, sans-serif', fontSize: 13,
+                  color: B.muted, marginTop: 10,
+                }}>{c.area}</div>
               </div>
             ))}
           </div>
