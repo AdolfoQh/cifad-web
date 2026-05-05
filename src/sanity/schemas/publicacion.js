@@ -70,7 +70,28 @@ export default defineType({
       title: 'Imagen de portada',
       type: 'image',
       options: { hotspot: true },
-      description: 'Opcional',
+      description: 'Opcional — Tamaño recomendado: 1200 × 630 px, JPG o PNG.',
+    }),
+    defineField({
+      name: 'cuerpo',
+      title: 'Contenido adicional',
+      type: 'array',
+      of: [
+        { type: 'block' },
+        {
+          type: 'image',
+          options: { hotspot: true },
+          fields: [
+            {
+              name: 'caption',
+              type: 'string',
+              title: 'Epígrafe',
+              description: 'Texto descriptivo debajo de la imagen (opcional)',
+            },
+          ],
+        },
+      ],
+      description: 'Opcional — Podés agregar texto extendido e imágenes complementarias. Tamaño recomendado para imágenes: 1200 × 800 px.',
     }),
   ],
   preview: {

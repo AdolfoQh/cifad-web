@@ -60,15 +60,31 @@ export default defineType({
     }),
     defineField({
       name: 'imagen',
-      title: 'Imagen',
+      title: 'Imagen destacada',
       type: 'image',
       options: { hotspot: true },
+      description: 'Tamaño recomendado: 1200 × 630 px — JPG o PNG. Se muestra como portada del evento.',
     }),
     defineField({
       name: 'descripcion',
       title: 'Descripción',
       type: 'array',
-      of: [{ type: 'block' }, { type: 'image', options: { hotspot: true } }],
+      of: [
+        { type: 'block' },
+        {
+          type: 'image',
+          options: { hotspot: true },
+          fields: [
+            {
+              name: 'caption',
+              type: 'string',
+              title: 'Epígrafe',
+              description: 'Texto descriptivo debajo de la imagen (opcional)',
+            },
+          ],
+        },
+      ],
+      description: 'Podés insertar imágenes entre párrafos usando el botón de imagen del editor. Tamaño recomendado: 1200 × 800 px.',
     }),
     defineField({
       name: 'urlInscripcion',

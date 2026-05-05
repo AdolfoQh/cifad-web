@@ -49,22 +49,38 @@ export default defineType({
     }),
     defineField({
       name: 'imagen',
-      title: 'Imagen',
+      title: 'Imagen destacada',
       type: 'image',
       options: { hotspot: true },
+      description: 'Tamaño recomendado: 1200 × 630 px — JPG o PNG. Se usa como portada de la noticia.',
     }),
     defineField({
       name: 'resumen',
       title: 'Resumen',
       type: 'text',
       rows: 3,
-      description: 'Texto corto para la card (máx. 200 caracteres)',
+      description: 'Texto corto para la card en el sitio (máx. 200 caracteres)',
     }),
     defineField({
       name: 'cuerpo',
       title: 'Texto completo',
       type: 'array',
-      of: [{ type: 'block' }, { type: 'image', options: { hotspot: true } }],
+      of: [
+        { type: 'block' },
+        {
+          type: 'image',
+          options: { hotspot: true },
+          fields: [
+            {
+              name: 'caption',
+              type: 'string',
+              title: 'Epígrafe',
+              description: 'Texto descriptivo debajo de la imagen (opcional)',
+            },
+          ],
+        },
+      ],
+      description: 'Podés insertar imágenes entre párrafos usando el botón de imagen del editor. Tamaño recomendado para imágenes de cuerpo: 1200 × 800 px.',
     }),
   ],
   preview: {
