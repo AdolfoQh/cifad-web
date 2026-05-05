@@ -1,8 +1,8 @@
 export const stats = [
   { value: '6', label: 'Laboratorios activos' },
   { value: '20+', label: 'Investigadores' },
-  { value: '3', label: 'Colaboraciones internacionales' },
-  { value: '2025', label: 'Año de fundación' },
+  { value: '7', label: 'Colaboraciones institucionales' },
+  { value: '2024', label: 'Año de fundación' },
 ]
 
 export const services = [

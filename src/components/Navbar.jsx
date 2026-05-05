@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import marcaSvg from '../assets/marca.svg'
 
 const B = {
   bg: '#0a0e14', surface: '#161c26', border: '#222a36',
@@ -30,16 +31,12 @@ export default function Navbar() {
       whiteSpace: 'nowrap',
     }}>
       {/* Logo */}
-      <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: 8, textDecoration: 'none' }}>
-        <div style={{
-          width: 22, height: 22, borderRadius: 6,
-          background: `linear-gradient(135deg, ${B.accent}, ${B.accent2})`,
-          flexShrink: 0,
-        }}/>
-        <span style={{
-          fontFamily: 'Space Grotesk, sans-serif', fontWeight: 700,
-          fontSize: 15, color: B.text, letterSpacing: '-.01em',
-        }}>cifad</span>
+      <Link to="/" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
+        <img
+          src={marcaSvg}
+          alt="CIFAD"
+          style={{ height: 28, width: 'auto', filter: 'brightness(0) invert(1)' }}
+        />
       </Link>
 
       {/* Desktop nav */}
