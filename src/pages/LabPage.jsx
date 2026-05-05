@@ -92,10 +92,20 @@ export default function LabPage() {
         padding: '160px 32px 100px',
         position: 'relative', overflow: 'hidden',
       }}>
+        {/* Imagen de fondo del lab */}
+        {lab.image && (
+          <div style={{
+            position: 'absolute', inset: 0,
+            backgroundImage: `url(${lab.image})`,
+            backgroundSize: 'cover', backgroundPosition: 'center',
+            opacity: .12, pointerEvents: 'none',
+          }}/>
+        )}
+        {/* Glow de color */}
         <div style={{
           position: 'absolute', top: -100, right: -100, width: 600, height: 600,
           borderRadius: '50%', background: lab.color,
-          opacity: .08, filter: 'blur(120px)', pointerEvents: 'none',
+          opacity: lab.image ? .06 : .08, filter: 'blur(120px)', pointerEvents: 'none',
         }}/>
 
         <div style={{ maxWidth: 1280, margin: '0 auto', position: 'relative' }}>

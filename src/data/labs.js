@@ -8,6 +8,7 @@ export const labs = [
     areas: ['Percepción visual', 'Accesibilidad', 'UX', 'Color y emoción'],
     collaborations: ['ESDi Design School, Barcelona'],
     color: '#ff7a3d',  // naranja — color
+    image: '/images/labs/color.png',
   },
   {
     id: 'biomateriales', slug: 'biomateriales', num: '02',
