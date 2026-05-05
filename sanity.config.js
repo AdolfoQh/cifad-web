@@ -7,7 +7,7 @@ export default defineConfig({
   name: 'cifad',
   title: 'CIFAD — Studio',
   projectId: '4kthhbvz',
-  dataset: 'production',
+  dataset: 'cifad',
   plugins: [
     structureTool({
       structure: (S) =>
