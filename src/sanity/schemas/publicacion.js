@@ -70,7 +70,7 @@ export default defineType({
       title: 'Imagen de portada',
       type: 'image',
       options: { hotspot: true },
-      description: 'Opcional — Tamaño recomendado: 1200 × 630 px, JPG o PNG.',
+      description: 'Opcional — Tamaño recomendado: 800 × 420 px, JPG o PNG.',
     }),
     defineField({
       name: 'cuerpo',

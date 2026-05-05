@@ -63,7 +63,7 @@ export default defineType({
       title: 'Imagen destacada',
       type: 'image',
       options: { hotspot: true },
-      description: 'Tamaño recomendado: 1200 × 630 px — JPG o PNG. Se muestra como portada del evento.',
+      description: 'Tamaño recomendado: 800 × 420 px — JPG o PNG. Se muestra como portada del evento.',
     }),
     defineField({
       name: 'descripcion',
