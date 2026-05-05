@@ -42,6 +42,9 @@ export default function LabPage() {
   const [novedades, setNovedades] = useState([])
   const [loadingData, setLoadingData] = useState(true)
 
+  // Scroll al inicio al entrar
+  useEffect(() => { window.scrollTo(0, 0) }, [slug])
+
   useEffect(() => {
     if (!lab) return
     Promise.all([
@@ -297,7 +300,7 @@ export default function LabPage() {
 
             {/* Right: sidebar */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
-              {/* Responsables */}
+              {/* Responsable/s */}
               <FadeIn delay={.15}>
                 <div style={{
                   background: B.surface, border: `1px solid ${B.border}`,
@@ -305,31 +308,22 @@ export default function LabPage() {
                 }}>
                   <div style={{
                     fontFamily: 'JetBrains Mono, monospace', fontSize: 10,
-                    color: B.muted, textTransform: 'uppercase', letterSpacing: '.15em', marginBottom: 20,
+                    color: B.muted, textTransform: 'uppercase', letterSpacing: '.15em', marginBottom: 16,
                   }}>Responsable{lab.responsible.length > 1 ? 's' : ''}</div>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-                    {lab.responsible.map((r) => (
-                      <div key={r} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                        <div style={{
-                          width: 36, height: 36, borderRadius: '50%', flexShrink: 0,
-                          background: `linear-gradient(135deg, ${lab.color}80, ${B.accent2}60)`,
-                          display: 'flex', alignItems: 'center', justifyContent: 'center',
-                          fontFamily: 'Space Grotesk, sans-serif', fontWeight: 700,
-                          fontSize: 12, color: B.bg,
-                        }}>
-                          {r.split(' ').filter(w => w.length > 2).slice(-2).map(w => w[0]).join('')}
-                        </div>
-                        <span style={{ fontFamily: 'Inter, sans-serif', fontSize: 14, color: B.text }}>
-                          {r}
-                        </span>
-                      </div>
+                  <div style={{ display: 'flex', flexDirection: 'column' }}>
+                    {lab.responsible.map((r, i) => (
+                      <div key={r} style={{
+                        fontFamily: 'Inter, sans-serif', fontSize: 14,
+                        color: B.text, padding: '8px 0',
+                        borderBottom: i < lab.responsible.length - 1 ? `1px solid ${B.border}` : 'none',
+                      }}>{r}</div>
                     ))}
                   </div>
                 </div>
               </FadeIn>
 
-              {/* Stats rápidas */}
-              {!loadingData && (proyectos.length > 0 || novedades.length > 0) && (
+              {/* Integrantes */}
+              {lab.members && lab.members.length > 0 && (
                 <FadeIn delay={.2}>
                   <div style={{
                     background: B.surface, border: `1px solid ${B.border}`,
@@ -337,39 +331,22 @@ export default function LabPage() {
                   }}>
                     <div style={{
                       fontFamily: 'JetBrains Mono, monospace', fontSize: 10,
-                      color: B.muted, textTransform: 'uppercase', letterSpacing: '.15em', marginBottom: 20,
-                    }}>Actividad</div>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-                      {proyectos.length > 0 && (
-                        <div>
-                          <div style={{
-                            fontFamily: 'Space Grotesk, sans-serif', fontSize: 28,
-                            fontWeight: 600, color: lab.color, lineHeight: 1,
-                          }}>{proyectos.length}</div>
-                          <div style={{
-                            fontFamily: 'Inter, sans-serif', fontSize: 12,
-                            color: B.muted, marginTop: 4,
-                          }}>proyecto{proyectos.length !== 1 ? 's' : ''} registrado{proyectos.length !== 1 ? 's' : ''}</div>
-                        </div>
-                      )}
-                      {proyectos.filter(p => p.estado === 'en_curso').length > 0 && (
-                        <div>
-                          <div style={{
-                            fontFamily: 'Space Grotesk, sans-serif', fontSize: 28,
-                            fontWeight: 600, color: lab.color, lineHeight: 1,
-                          }}>{proyectos.filter(p => p.estado === 'en_curso').length}</div>
-                          <div style={{
-                            fontFamily: 'Inter, sans-serif', fontSize: 12,
-                            color: B.muted, marginTop: 4,
-                          }}>en curso</div>
-                        </div>
-                      )}
+                      color: B.muted, textTransform: 'uppercase', letterSpacing: '.15em', marginBottom: 16,
+                    }}>Integrantes</div>
+                    <div style={{ display: 'flex', flexDirection: 'column' }}>
+                      {lab.members.map((m, i) => (
+                        <div key={m} style={{
+                          fontFamily: 'Inter, sans-serif', fontSize: 13,
+                          color: B.muted, padding: '8px 0',
+                          borderBottom: i < lab.members.length - 1 ? `1px solid ${B.border}` : 'none',
+                        }}>{m}</div>
+                      ))}
                     </div>
                   </div>
                 </FadeIn>
               )}
 
-              {/* Collaborations */}
+              {/* Colaboraciones */}
               {lab.collaborations.length > 0 && (
                 <FadeIn delay={.25}>
                   <div style={{
@@ -378,13 +355,14 @@ export default function LabPage() {
                   }}>
                     <div style={{
                       fontFamily: 'JetBrains Mono, monospace', fontSize: 10,
-                      color: B.muted, textTransform: 'uppercase', letterSpacing: '.15em', marginBottom: 20,
+                      color: B.muted, textTransform: 'uppercase', letterSpacing: '.15em', marginBottom: 16,
                     }}>Colaboraciones</div>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-                      {lab.collaborations.map((c) => (
+                    <div style={{ display: 'flex', flexDirection: 'column' }}>
+                      {lab.collaborations.map((c, i) => (
                         <div key={c} style={{
                           fontFamily: 'Inter, sans-serif', fontSize: 13, color: B.muted,
-                          paddingBottom: 10, borderBottom: `1px solid ${B.border}`,
+                          padding: '8px 0',
+                          borderBottom: i < lab.collaborations.length - 1 ? `1px solid ${B.border}` : 'none',
                         }}>{c}</div>
                       ))}
                     </div>

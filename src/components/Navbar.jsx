@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import marcaSvg from '../assets/marca-navbar.svg'
 
 const B = {
@@ -7,11 +7,18 @@ const B = {
   text: '#eef0f3', muted: '#8a93a3', accent: '#ff7a3d', accent2: '#7c9eff',
 }
 
-const navLinks = ['Centro', 'Laboratorios', 'Investigación', 'Servicios']
+const navLinks = [
+  { label: 'Centro',        id: 'centro' },
+  { label: 'Laboratorios',  id: 'laboratorios' },
+  { label: 'Investigación', id: 'investigación' },
+  { label: 'Servicios',     id: 'servicios' },
+]
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
+  const location = useLocation()
+  const isHome = location.pathname === '/'
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40)
@@ -41,9 +48,9 @@ export default function Navbar() {
 
       {/* Desktop nav */}
       <nav style={{ display: 'flex', gap: 2 }} className="hidden lg:flex">
-        {navLinks.map(item => (
-          <a key={item}
-            href={`#${item.toLowerCase()}`}
+        {navLinks.map(({ label, id }) => (
+          <a key={id}
+            href={isHome ? `#${id}` : `/#${id}`}
             style={{
               color: B.muted, textDecoration: 'none', fontSize: 13,
               fontFamily: 'Inter, sans-serif', fontWeight: 500,
@@ -51,12 +58,12 @@ export default function Navbar() {
             }}
             onMouseEnter={e => { e.currentTarget.style.background = B.surface; e.currentTarget.style.color = B.text }}
             onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = B.muted }}
-          >{item}</a>
+          >{label}</a>
         ))}
       </nav>
 
       {/* CTA */}
-      <a href="#contacto" style={{
+      <a href={isHome ? '#contacto' : '/#contacto'} style={{
         background: B.text, color: B.bg, border: 'none',
         padding: '8px 16px', cursor: 'pointer', fontSize: 13,
         fontFamily: 'Inter, sans-serif', fontWeight: 500,
@@ -86,17 +93,17 @@ export default function Navbar() {
           border: `1px solid ${B.border}`, borderRadius: 16, padding: 16,
           display: 'flex', flexDirection: 'column', gap: 4,
         }} className="lg:hidden">
-          {navLinks.map(item => (
-            <a key={item} href={`#${item.toLowerCase()}`}
+          {navLinks.map(({ label, id }) => (
+            <a key={id} href={isHome ? `#${id}` : `/#${id}`}
               onClick={() => setMenuOpen(false)}
               style={{
                 color: B.muted, textDecoration: 'none', fontSize: 14,
                 fontFamily: 'Inter, sans-serif', padding: '10px 12px',
                 borderRadius: 8,
               }}
-            >{item}</a>
+            >{label}</a>
           ))}
-          <a href="#contacto" onClick={() => setMenuOpen(false)} style={{
+          <a href={isHome ? '#contacto' : '/#contacto'} onClick={() => setMenuOpen(false)} style={{
             background: B.text, color: B.bg, textDecoration: 'none',
             padding: '10px 12px', borderRadius: 8, textAlign: 'center',
             fontFamily: 'Inter, sans-serif', fontSize: 14, fontWeight: 500, marginTop: 4,
