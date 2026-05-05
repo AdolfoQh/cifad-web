@@ -36,7 +36,7 @@ function LabCard({ lab, index }) {
       <div style={{
         position: 'absolute', top: -50, right: -50, width: 200, height: 200,
         borderRadius: '50%', background: lab.color,
-        opacity: hover ? .3 : .12, filter: 'blur(60px)',
+        opacity: hover ? .4 : .22, filter: 'blur(60px)',
         transition: 'opacity .4s', pointerEvents: 'none',
       }}/>
 

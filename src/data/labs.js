@@ -7,7 +7,7 @@ export const labs = [
     responsible: ['Di. Jerónimo Formica'],
     areas: ['Percepción visual', 'Accesibilidad', 'UX', 'Color y emoción'],
     collaborations: ['ESDi Design School, Barcelona'],
-    color: '#ff7a3d',
+    color: '#ff7a3d',  // naranja — color
   },
   {
     id: 'biomateriales', slug: 'biomateriales', num: '02',
@@ -17,7 +17,7 @@ export const labs = [
     responsible: ['D.I. Mariana Alejandra Gordillo', 'D.I. Mónica Irene Manciana'],
     areas: ['Economía circular', 'Materiales sostenibles', 'Diseño transdisciplinar'],
     collaborations: [],
-    color: '#7c9eff',
+    color: '#4ade80',  // verde — bio/sostenible
   },
   {
     id: 'morfologia', slug: 'morfologia', num: '03',
@@ -27,7 +27,7 @@ export const labs = [
     responsible: ['D.I. Julio Roberto Quinteros Baez'],
     areas: ['Geometría', 'Percepción', 'Semiótica', 'Análisis espacial'],
     collaborations: [],
-    color: '#5e98c2',
+    color: '#7c9eff',  // azul — geometría/forma
   },
   {
     id: 'ia', slug: 'ia', num: '04',
@@ -37,7 +37,7 @@ export const labs = [
     responsible: ['D.I. Juan Ignacio Chade', 'D.I. Andrés Felipe Espinaza Gallardo'],
     areas: ['Inteligencia Artificial', 'Diseño generativo', 'Transferencia tecnológica'],
     collaborations: ['Barcelona Supercomputing Center'],
-    color: '#ff7a3d',
+    color: '#a78bfa',  // violeta — IA/tech
   },
   {
     id: 'mecatronica', slug: 'mecatronica', num: '05',
@@ -47,7 +47,7 @@ export const labs = [
     responsible: ['Lic. María Luciana Silvestri'],
     areas: ['Interacción humano-máquina', 'Industria 4.0', 'Usabilidad', 'Robótica'],
     collaborations: [],
-    color: '#7c9eff',
+    color: '#22d3ee',  // cyan — industrial/mecánica
   },
   {
     id: 'audiovisual', slug: 'audiovisual', num: '06',
@@ -57,6 +57,6 @@ export const labs = [
     responsible: ['Mgter. Diego Onetto'],
     areas: ['Narrativa audiovisual', 'Plataformas digitales', 'Comunicación', 'Tecnologías emergentes'],
     collaborations: [],
-    color: '#5e98c2',
+    color: '#f472b6',  // rosa — audiovisual/creativo
   },
 ]
