@@ -3,10 +3,12 @@ export const labs = [
     id: 'color', slug: 'color', num: '01',
     name: 'Laboratorio de Color',
     shortDescription: 'El color como construcción de sentido en contextos sociales y proyectuales.',
-    description: 'Continuación del proyecto de investigación de la FAD centrado en el rol del color en la percepción visual, legibilidad, accesibilidad, transmisión de emociones y jerarquía en UX. Colabora con ESDi Design School (Barcelona) y su laboratorio de color the_esdicreate_lab.',
+    description: 'Investiga el color como sistema de construcción de sentido, explorando su dimensión conceptual, cultural y proyectual más allá de su función estética o perceptiva. El color no solo como fenómeno visual sino como recurso que construye significados, orienta decisiones y articula lenguajes en el diseño.\n\nSu trabajo se desarrolla en una red de vínculos académicos, institucionales y productivos que incluye la Escuela Superior de Diseño (ESDi, Barcelona), la Red Latinoamericana del Color, el Grupo Argentino del Color, y empresas del sector como AkzoNobel, Pinturas Alba y Pinturerías Merino.',
     responsible: ['Esp. Jerónimo Formica'],
-    members: [],
-    areas: ['Percepción visual', 'Accesibilidad', 'UX', 'Color y emoción'],
+    members: [
+      { name: 'Mgter. Adolfo Marchesini', role: 'Coordinador' },
+    ],
+    areas: ['Color', 'Diseño', 'Conceptos', 'Proyectos', 'Cultura'],
     collaborations: [
       'Escuela Superior de Diseño (ESDi, Barcelona)',
       'Red Latinoamericana del Color',

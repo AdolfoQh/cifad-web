@@ -5,6 +5,20 @@ import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import { useInView } from '../hooks/useInView'
 import { client, urlFor } from '../sanity/client'
+import { team, researchers } from '../data/team'
+
+const groupImages = {
+  coordinacion: '/images/equipo/coordinacion.jpg',
+  docente:      '/images/equipo/profesores.jpg',
+  graduado:     '/images/equipo/egresados.jpg',
+}
+
+function getGroupImage(name) {
+  if (team.some(p => p.name === name)) return groupImages.coordinacion
+  const r = researchers.find(p => p.name === name)
+  if (r) return groupImages[r.category] || null
+  return null
+}
 
 const B = {
   bg: '#0a0e14', bg2: '#10151d', surface: '#161c26', border: '#222a36',
@@ -156,10 +170,12 @@ export default function LabPage() {
                   fontFamily: 'JetBrains Mono, monospace', fontSize: 10,
                   color: B.muted, textTransform: 'uppercase', letterSpacing: '.15em', marginBottom: 16,
                 }}>Sobre el laboratorio</div>
-                <p style={{
-                  fontFamily: 'Inter, sans-serif', fontSize: 18, lineHeight: 1.65,
-                  color: B.muted, marginBottom: 48,
-                }}>{lab.description}</p>
+                {lab.description.split('\n\n').map((p, i) => (
+                  <p key={i} style={{
+                    fontFamily: 'Inter, sans-serif', fontSize: 18, lineHeight: 1.65,
+                    color: B.muted, marginBottom: i < lab.description.split('\n\n').length - 1 ? 20 : 48,
+                  }}>{p}</p>
+                ))}
               </FadeIn>
 
               <FadeIn delay={.1}>
@@ -311,13 +327,27 @@ export default function LabPage() {
                     color: B.muted, textTransform: 'uppercase', letterSpacing: '.15em', marginBottom: 16,
                   }}>Responsable{lab.responsible.length > 1 ? 's' : ''}</div>
                   <div style={{ display: 'flex', flexDirection: 'column' }}>
-                    {lab.responsible.map((r, i) => (
-                      <div key={r} style={{
-                        fontFamily: 'Inter, sans-serif', fontSize: 14,
-                        color: B.text, padding: '8px 0',
-                        borderBottom: i < lab.responsible.length - 1 ? `1px solid ${B.border}` : 'none',
-                      }}>{r}</div>
-                    ))}
+                    {lab.responsible.map((r, i) => {
+                      const img = getGroupImage(r)
+                      return (
+                        <div key={r} style={{
+                          display: 'flex', alignItems: 'center', gap: 12,
+                          padding: '8px 0',
+                          borderBottom: i < lab.responsible.length - 1 ? `1px solid ${B.border}` : 'none',
+                        }}>
+                          {img && (
+                            <img src={img} alt={r} style={{
+                              width: 36, height: 36, borderRadius: '50%',
+                              objectFit: 'cover', flexShrink: 0,
+                              border: `2px solid ${B.border}`,
+                            }} />
+                          )}
+                          <span style={{ fontFamily: 'Inter, sans-serif', fontSize: 14, color: B.text }}>
+                            {r}
+                          </span>
+                        </div>
+                      )
+                    })}
                   </div>
                 </div>
               </FadeIn>
