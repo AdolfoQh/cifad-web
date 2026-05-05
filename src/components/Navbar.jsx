@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import marcaSvg from '../assets/marca.svg'
+import marcaSvg from '../assets/marca-navbar.svg'
 
 const B = {
   bg: '#0a0e14', surface: '#161c26', border: '#222a36',
