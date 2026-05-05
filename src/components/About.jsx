@@ -35,22 +35,23 @@ export default function About() {
               fontSize: 'clamp(36px, 5vw, 72px)', lineHeight: 1, letterSpacing: '-.03em',
               margin: 0, marginBottom: 24,
             }}>
-              Investigación con<br/>
-              <span style={{ color: B.muted }}>impacto medible.</span>
+              Investigación que<br/>
+              <span style={{ color: B.muted }}>se vuelve acción.</span>
             </h2>
             <p style={{
               fontFamily: 'Inter, sans-serif', fontSize: 18, lineHeight: 1.6,
               color: B.muted, maxWidth: 720, margin: 0,
             }}>
-              CiFAD es el Centro de Investigación de la Facultad de Artes y Diseño de la UNCuyo.
-              Articulamos academia, industria y sociedad para que las decisiones tecnológicas se
-              tomen con evidencia, no con intuición.
+              El Centro de Investigación en Tecnologías Emergentes de la Facultad de Artes y Diseño
+              de la Universidad Nacional de Cuyo, en Mendoza, Argentina, trabaja en la articulación
+              entre academia, industria y sociedad para que las decisiones tecnológicas se basen
+              en evidencia y no en intuición.
             </p>
 
             <div style={{ marginTop: 48, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
               {[
-                { t: 'Misión', d: 'Desarrollar un marco integral que coloque la UX en el centro de la implementación tecnológica con criterio ético y social.' },
-                { t: 'Visión', d: 'Ser referente en investigación y formación en UX y tecnologías emergentes en América Latina.' },
+                { t: 'Misión', d: 'Abordar proyectualmente la relación entre personas y tecnologías, en articulación con la academia, la industria y la sociedad.' },
+                { t: 'Visión', d: 'Desarrollar capacidades sostenidas de investigación, innovación y transferencia para anticipar, comprender y orientar el desarrollo tecnológico en el territorio y la sociedad.' },
               ].map((c, i) => (
                 <FadeIn key={c.t} delay={.2 + i * .1}>
                   <div style={{

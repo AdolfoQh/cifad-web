@@ -54,14 +54,14 @@ export default function Services() {
             fontSize: 'clamp(40px, 6vw, 88px)', lineHeight: 1,
             letterSpacing: '-.035em', margin: 0, marginBottom: 16,
           }}>
-            Trabajamos con<br/>
+            Construimos con<br/>
             <span style={{ color: B.muted }}>empresas e instituciones.</span>
           </h2>
           <p style={{
             fontFamily: 'Inter, sans-serif', fontSize: 18, lineHeight: 1.6,
             color: B.muted, maxWidth: 600, margin: 0,
           }}>
-            Llevamos rigor académico a problemas concretos de la industria. Cuatro modos de colaboración.
+            Brindamos conocimiento y perspectiva proyectual para resolver problemas del entorno productivo y social.
           </p>
         </div>
 

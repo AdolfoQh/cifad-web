@@ -125,9 +125,8 @@ export default function Hero() {
               fontFamily: 'Inter, sans-serif', fontSize: 18, lineHeight: 1.6,
               color: B.muted, maxWidth: 580, margin: 0,
             }}>
-              Centro de investigación de la FAD UNCuyo especializado en UX y tecnologías emergentes.
-              Seis laboratorios. Veinte investigadores. Una pregunta: ¿cómo hacemos que la innovación
-              mejore la vida real de la gente?
+              La persona en el origen de todo lo que investigamos, en articulación con la academia,
+              el sector productivo y la sociedad, para que el conocimiento se convierta en acción.
             </p>
             <div style={{ marginTop: 32, display: 'flex', gap: 12, flexWrap: 'wrap' }}>
               <a href="#laboratorios" style={{

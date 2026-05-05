@@ -96,8 +96,8 @@ export default function Team() {
             fontFamily: 'Space Grotesk, sans-serif', fontWeight: 500,
             fontSize: 'clamp(40px, 6vw, 88px)', lineHeight: 1, letterSpacing: '-.035em', margin: 0,
           }}>
-            Investigadores e<br/>
-            <span style={{ color: B.muted }}>infraestructura humana.</span>
+            Personas que investigan<br/>
+            <span style={{ color: B.muted }}>para personas.</span>
           </h2>
         </div>
 

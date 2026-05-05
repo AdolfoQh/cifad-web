@@ -101,10 +101,16 @@ export default function Labs() {
             <h2 style={{
               fontFamily: 'Space Grotesk, sans-serif', fontWeight: 500,
               fontSize: 'clamp(40px, 6vw, 88px)', lineHeight: 1, letterSpacing: '-.035em', margin: 0,
+              marginBottom: 16,
             }}>
-              Seis laboratorios.<br/>
-              <span style={{ color: B.muted }}>Una infraestructura compartida.</span>
+              Laboratorios.
             </h2>
+            <p style={{
+              fontFamily: 'Inter, sans-serif', fontSize: 18, lineHeight: 1.6,
+              color: B.muted, maxWidth: 500, margin: 0,
+            }}>
+              Ecosistema de trabajo que activa conocimiento y lo valida.
+            </p>
           </div>
         </div>
 
