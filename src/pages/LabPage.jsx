@@ -1,8 +1,10 @@
+import { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { labs } from '../data/labs'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import { useInView } from '../hooks/useInView'
+import { client, urlFor } from '../sanity/client'
 
 const B = {
   bg: '#0a0e14', bg2: '#10151d', surface: '#161c26', border: '#222a36',
@@ -22,9 +24,45 @@ function FadeIn({ children, delay = 0, style = {} }) {
   )
 }
 
+function formatDate(str) {
+  return new Date(str).toLocaleDateString('es-AR', { day: 'numeric', month: 'long', year: 'numeric' })
+}
+
+function formatYear(start, end) {
+  const s = start ? new Date(start).getFullYear() : '?'
+  const e = end ? new Date(end).getFullYear() : ''
+  return e ? `${s}–${e}` : `${s}–`
+}
+
 export default function LabPage() {
   const { slug } = useParams()
   const lab = labs.find((l) => l.slug === slug)
+
+  const [proyectos, setProyectos] = useState([])
+  const [novedades, setNovedades] = useState([])
+  const [loadingData, setLoadingData] = useState(true)
+
+  useEffect(() => {
+    if (!lab) return
+    Promise.all([
+      client.fetch(
+        `*[_type == "proyecto" && lab == $lab] | order(fechaInicio desc) {
+          _id, titulo, estado, fechaInicio, fechaFin, autores
+        }`,
+        { lab: slug }
+      ),
+      client.fetch(
+        `*[_type == "novedad" && lab == $lab] | order(fecha desc)[0..2] {
+          _id, titulo, fecha, resumen, imagen
+        }`,
+        { lab: slug }
+      ),
+    ]).then(([proy, news]) => {
+      setProyectos(proy)
+      setNovedades(news)
+      setLoadingData(false)
+    }).catch(() => setLoadingData(false))
+  }, [slug, lab])
 
   if (!lab) {
     return (
@@ -54,7 +92,6 @@ export default function LabPage() {
         padding: '160px 32px 100px',
         position: 'relative', overflow: 'hidden',
       }}>
-        {/* Color glow */}
         <div style={{
           position: 'absolute', top: -100, right: -100, width: 600, height: 600,
           borderRadius: '50%', background: lab.color,
@@ -99,7 +136,7 @@ export default function LabPage() {
       <section style={{ padding: '80px 32px 120px', background: B.bg2 }}>
         <div style={{ maxWidth: 1280, margin: '0 auto' }}>
           <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: 64, alignItems: 'start' }}>
-            {/* Left: description + areas */}
+            {/* Left: description + áreas + proyectos + novedades */}
             <div>
               <FadeIn>
                 <div style={{
@@ -129,24 +166,123 @@ export default function LabPage() {
                 </div>
               </FadeIn>
 
-              {/* Projects placeholder */}
+              {/* Proyectos */}
               <FadeIn delay={.2}>
                 <div style={{
                   fontFamily: 'JetBrains Mono, monospace', fontSize: 10,
                   color: B.muted, textTransform: 'uppercase', letterSpacing: '.15em', marginBottom: 20,
                 }}>Proyectos e investigaciones</div>
-                <div style={{
-                  background: B.surface, border: `1px solid ${B.border}`,
-                  borderRadius: 16, padding: 32,
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  minHeight: 120,
-                }}>
-                  <span style={{
+
+                {loadingData ? (
+                  <div style={{
+                    background: B.surface, border: `1px solid ${B.border}`,
+                    borderRadius: 16, padding: 32, textAlign: 'center',
                     fontFamily: 'JetBrains Mono, monospace', fontSize: 11,
-                    color: B.muted, textTransform: 'uppercase', letterSpacing: '.14em',
-                  }}>[ próximamente ]</span>
-                </div>
+                    color: B.muted, letterSpacing: '.14em',
+                  }}>Cargando...</div>
+                ) : proyectos.length === 0 ? (
+                  <div style={{
+                    background: B.surface, border: `1px solid ${B.border}`,
+                    borderRadius: 16, padding: 32,
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    minHeight: 100,
+                  }}>
+                    <span style={{
+                      fontFamily: 'JetBrains Mono, monospace', fontSize: 11,
+                      color: B.muted, textTransform: 'uppercase', letterSpacing: '.14em',
+                    }}>[ próximamente ]</span>
+                  </div>
+                ) : (
+                  <div style={{
+                    background: B.surface, border: `1px solid ${B.border}`,
+                    borderRadius: 16, overflow: 'hidden',
+                  }}>
+                    {proyectos.map((p, i) => {
+                      const isActive = p.estado === 'en_curso'
+                      return (
+                        <div key={p._id} style={{
+                          display: 'grid', gridTemplateColumns: '1fr auto',
+                          alignItems: 'center', gap: 16,
+                          padding: '18px 24px',
+                          borderBottom: i < proyectos.length - 1 ? `1px solid ${B.border}` : 'none',
+                        }}>
+                          <div>
+                            <div style={{
+                              fontFamily: 'Space Grotesk, sans-serif', fontSize: 15,
+                              fontWeight: 500, color: B.text, marginBottom: 4,
+                            }}>{p.titulo}</div>
+                            {p.autores && p.autores.length > 0 && (
+                              <div style={{
+                                fontFamily: 'Inter, sans-serif', fontSize: 12,
+                                color: B.muted,
+                              }}>{p.autores.join(', ')}</div>
+                            )}
+                          </div>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexShrink: 0 }}>
+                            <span style={{
+                              fontFamily: 'JetBrains Mono, monospace', fontSize: 11,
+                              color: B.muted,
+                            }}>{formatYear(p.fechaInicio, p.fechaFin)}</span>
+                            <span style={{
+                              display: 'inline-flex', alignItems: 'center',
+                              padding: '3px 10px', borderRadius: 999,
+                              background: isActive ? `${lab.color}20` : B.border,
+                              border: `1px solid ${isActive ? lab.color : B.border}`,
+                              fontFamily: 'JetBrains Mono, monospace', fontSize: 10,
+                              color: isActive ? lab.color : B.muted,
+                              textTransform: 'uppercase', letterSpacing: '.1em',
+                            }}>{isActive ? 'En curso' : 'Finalizado'}</span>
+                          </div>
+                        </div>
+                      )
+                    })}
+                  </div>
+                )}
               </FadeIn>
+
+              {/* Novedades */}
+              {!loadingData && novedades.length > 0 && (
+                <FadeIn delay={.3}>
+                  <div style={{
+                    fontFamily: 'JetBrains Mono, monospace', fontSize: 10,
+                    color: B.muted, textTransform: 'uppercase', letterSpacing: '.15em',
+                    marginTop: 56, marginBottom: 20,
+                  }}>Últimas novedades</div>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                    {novedades.map((item) => (
+                      <div key={item._id} style={{
+                        background: B.surface, border: `1px solid ${B.border}`,
+                        borderRadius: 16, overflow: 'hidden',
+                        display: 'grid', gridTemplateColumns: item.imagen ? '120px 1fr' : '1fr',
+                      }}>
+                        {item.imagen && (
+                          <img
+                            src={urlFor(item.imagen).width(240).height(160).url()}
+                            alt={item.titulo}
+                            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                          />
+                        )}
+                        <div style={{ padding: 20 }}>
+                          <div style={{
+                            fontFamily: 'JetBrains Mono, monospace', fontSize: 11,
+                            color: B.muted, marginBottom: 6,
+                          }}>{formatDate(item.fecha)}</div>
+                          <div style={{
+                            fontFamily: 'Space Grotesk, sans-serif', fontSize: 15,
+                            fontWeight: 500, color: B.text, marginBottom: 6,
+                          }}>{item.titulo}</div>
+                          {item.resumen && (
+                            <p style={{
+                              fontFamily: 'Inter, sans-serif', fontSize: 13,
+                              lineHeight: 1.5, color: B.muted, margin: 0,
+                            }}>{item.resumen}</p>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </FadeIn>
+              )}
             </div>
 
             {/* Right: sidebar */}
@@ -181,6 +317,47 @@ export default function LabPage() {
                   </div>
                 </div>
               </FadeIn>
+
+              {/* Stats rápidas */}
+              {!loadingData && (proyectos.length > 0 || novedades.length > 0) && (
+                <FadeIn delay={.2}>
+                  <div style={{
+                    background: B.surface, border: `1px solid ${B.border}`,
+                    borderRadius: 16, padding: 28,
+                  }}>
+                    <div style={{
+                      fontFamily: 'JetBrains Mono, monospace', fontSize: 10,
+                      color: B.muted, textTransform: 'uppercase', letterSpacing: '.15em', marginBottom: 20,
+                    }}>Actividad</div>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+                      {proyectos.length > 0 && (
+                        <div>
+                          <div style={{
+                            fontFamily: 'Space Grotesk, sans-serif', fontSize: 28,
+                            fontWeight: 600, color: lab.color, lineHeight: 1,
+                          }}>{proyectos.length}</div>
+                          <div style={{
+                            fontFamily: 'Inter, sans-serif', fontSize: 12,
+                            color: B.muted, marginTop: 4,
+                          }}>proyecto{proyectos.length !== 1 ? 's' : ''} registrado{proyectos.length !== 1 ? 's' : ''}</div>
+                        </div>
+                      )}
+                      {proyectos.filter(p => p.estado === 'en_curso').length > 0 && (
+                        <div>
+                          <div style={{
+                            fontFamily: 'Space Grotesk, sans-serif', fontSize: 28,
+                            fontWeight: 600, color: lab.color, lineHeight: 1,
+                          }}>{proyectos.filter(p => p.estado === 'en_curso').length}</div>
+                          <div style={{
+                            fontFamily: 'Inter, sans-serif', fontSize: 12,
+                            color: B.muted, marginTop: 4,
+                          }}>en curso</div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </FadeIn>
+              )}
 
               {/* Collaborations */}
               {lab.collaborations.length > 0 && (
