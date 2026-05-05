@@ -365,11 +365,21 @@ export default function LabPage() {
                     }}>Integrantes</div>
                     <div style={{ display: 'flex', flexDirection: 'column' }}>
                       {lab.members.map((m, i) => (
-                        <div key={m} style={{
-                          fontFamily: 'Inter, sans-serif', fontSize: 13,
-                          color: B.muted, padding: '8px 0',
+                        <div key={m.name} style={{
+                          display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: 8,
+                          padding: '8px 0',
                           borderBottom: i < lab.members.length - 1 ? `1px solid ${B.border}` : 'none',
-                        }}>{m}</div>
+                        }}>
+                          <span style={{ fontFamily: 'Inter, sans-serif', fontSize: 13, color: B.text }}>
+                            {m.name}
+                          </span>
+                          {m.role && (
+                            <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 10,
+                              color: B.muted, textTransform: 'uppercase', letterSpacing: '.1em', flexShrink: 0 }}>
+                              {m.role}
+                            </span>
+                          )}
+                        </div>
                       ))}
                     </div>
                   </div>
