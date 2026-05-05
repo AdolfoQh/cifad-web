@@ -83,7 +83,7 @@ export default function News() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    client.fetch(`*[_type == "novedad"] | order(fecha desc)[0..5] {
+    client.fetch(`*[_type == "novedad" && mostrarEnHome == true] | order(fecha desc)[0..5] {
       _id, titulo, lab, fecha, resumen, imagen
     }`).then(data => {
       setNovedades(data)

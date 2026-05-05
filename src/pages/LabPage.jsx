@@ -38,6 +38,18 @@ function FadeIn({ children, delay = 0, style = {} }) {
   )
 }
 
+function ContentSection({ label, children, topMargin = false }) {
+  return (
+    <div style={{ marginTop: topMargin ? 56 : 0 }}>
+      <div style={{
+        fontFamily: 'JetBrains Mono, monospace', fontSize: 10,
+        color: B.muted, textTransform: 'uppercase', letterSpacing: '.15em', marginBottom: 20,
+      }}>{label}</div>
+      {children}
+    </div>
+  )
+}
+
 function formatDate(str) {
   return new Date(str).toLocaleDateString('es-AR', { day: 'numeric', month: 'long', year: 'numeric' })
 }
@@ -54,6 +66,8 @@ export default function LabPage() {
 
   const [proyectos, setProyectos] = useState([])
   const [novedades, setNovedades] = useState([])
+  const [publicaciones, setPublicaciones] = useState([])
+  const [eventos, setEventos] = useState([])
   const [loadingData, setLoadingData] = useState(true)
 
   // Scroll al inicio al entrar
@@ -69,14 +83,28 @@ export default function LabPage() {
         { lab: slug }
       ),
       client.fetch(
-        `*[_type == "novedad" && lab == $lab] | order(fecha desc)[0..2] {
+        `*[_type == "novedad" && lab == $lab] | order(fecha desc) {
           _id, titulo, fecha, resumen, imagen
         }`,
         { lab: slug }
       ),
-    ]).then(([proy, news]) => {
+      client.fetch(
+        `*[_type == "publicacion" && lab == $lab] | order(fecha desc) {
+          _id, titulo, fecha, autores, resumen, doi, url
+        }`,
+        { lab: slug }
+      ),
+      client.fetch(
+        `*[_type == "evento" && lab == $lab] | order(fechaInicio desc) {
+          _id, titulo, fechaInicio, fechaFin, lugar
+        }`,
+        { lab: slug }
+      ),
+    ]).then(([proy, news, pubs, evts]) => {
       setProyectos(proy)
       setNovedades(news)
+      setPublicaciones(pubs)
+      setEventos(evts)
       setLoadingData(false)
     }).catch(() => setLoadingData(false))
   }, [slug, lab])
@@ -197,10 +225,7 @@ export default function LabPage() {
 
               {/* Proyectos */}
               <FadeIn delay={.2}>
-                <div style={{
-                  fontFamily: 'JetBrains Mono, monospace', fontSize: 10,
-                  color: B.muted, textTransform: 'uppercase', letterSpacing: '.15em', marginBottom: 20,
-                }}>Proyectos e investigaciones</div>
+                <ContentSection label="Proyectos e investigaciones" topMargin>
 
                 {loadingData ? (
                   <div style={{
@@ -267,49 +292,135 @@ export default function LabPage() {
                     })}
                   </div>
                 )}
+                </ContentSection>
               </FadeIn>
 
               {/* Novedades */}
               {!loadingData && novedades.length > 0 && (
                 <FadeIn delay={.3}>
-                  <div style={{
-                    fontFamily: 'JetBrains Mono, monospace', fontSize: 10,
-                    color: B.muted, textTransform: 'uppercase', letterSpacing: '.15em',
-                    marginTop: 56, marginBottom: 20,
-                  }}>Últimas novedades</div>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-                    {novedades.map((item) => (
-                      <div key={item._id} style={{
-                        background: B.surface, border: `1px solid ${B.border}`,
-                        borderRadius: 16, overflow: 'hidden',
-                        display: 'grid', gridTemplateColumns: item.imagen ? '120px 1fr' : '1fr',
-                      }}>
-                        {item.imagen && (
-                          <img
-                            src={urlFor(item.imagen).width(240).height(160).url()}
-                            alt={item.titulo}
-                            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                          />
-                        )}
-                        <div style={{ padding: 20 }}>
-                          <div style={{
-                            fontFamily: 'JetBrains Mono, monospace', fontSize: 11,
-                            color: B.muted, marginBottom: 6,
-                          }}>{formatDate(item.fecha)}</div>
+                  <ContentSection label="Novedades" color={lab.color} topMargin>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                      {novedades.map((item) => (
+                        <div key={item._id} style={{
+                          background: B.surface, border: `1px solid ${B.border}`,
+                          borderRadius: 16, overflow: 'hidden',
+                          display: 'grid', gridTemplateColumns: item.imagen ? '120px 1fr' : '1fr',
+                        }}>
+                          {item.imagen && (
+                            <img
+                              src={urlFor(item.imagen).width(240).height(160).url()}
+                              alt={item.titulo}
+                              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                            />
+                          )}
+                          <div style={{ padding: 20 }}>
+                            <div style={{
+                              fontFamily: 'JetBrains Mono, monospace', fontSize: 11,
+                              color: B.muted, marginBottom: 6,
+                            }}>{formatDate(item.fecha)}</div>
+                            <div style={{
+                              fontFamily: 'Space Grotesk, sans-serif', fontSize: 15,
+                              fontWeight: 500, color: B.text, marginBottom: 6,
+                            }}>{item.titulo}</div>
+                            {item.resumen && (
+                              <p style={{
+                                fontFamily: 'Inter, sans-serif', fontSize: 13,
+                                lineHeight: 1.5, color: B.muted, margin: 0,
+                              }}>{item.resumen}</p>
+                            )}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </ContentSection>
+                </FadeIn>
+              )}
+
+              {/* Publicaciones */}
+              {!loadingData && publicaciones.length > 0 && (
+                <FadeIn delay={.35}>
+                  <ContentSection label="Publicaciones" color={lab.color} topMargin>
+                    <div style={{
+                      background: B.surface, border: `1px solid ${B.border}`,
+                      borderRadius: 16, overflow: 'hidden',
+                    }}>
+                      {publicaciones.map((p, i) => (
+                        <div key={p._id} style={{
+                          padding: '18px 24px',
+                          borderBottom: i < publicaciones.length - 1 ? `1px solid ${B.border}` : 'none',
+                        }}>
                           <div style={{
                             fontFamily: 'Space Grotesk, sans-serif', fontSize: 15,
-                            fontWeight: 500, color: B.text, marginBottom: 6,
-                          }}>{item.titulo}</div>
-                          {item.resumen && (
-                            <p style={{
-                              fontFamily: 'Inter, sans-serif', fontSize: 13,
-                              lineHeight: 1.5, color: B.muted, margin: 0,
-                            }}>{item.resumen}</p>
+                            fontWeight: 500, color: B.text, marginBottom: 4,
+                          }}>{p.titulo}</div>
+                          {p.autores && p.autores.length > 0 && (
+                            <div style={{
+                              fontFamily: 'Inter, sans-serif', fontSize: 12,
+                              color: B.muted, marginBottom: 4,
+                            }}>{p.autores.join(', ')}</div>
                           )}
+                          <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginTop: 6 }}>
+                            <span style={{
+                              fontFamily: 'JetBrains Mono, monospace', fontSize: 11, color: B.muted,
+                            }}>{formatDate(p.fecha)}</span>
+                            {p.doi && (
+                              <span style={{
+                                fontFamily: 'JetBrains Mono, monospace', fontSize: 11, color: lab.color,
+                              }}>DOI: {p.doi}</span>
+                            )}
+                            {p.url && (
+                              <a href={p.url} target="_blank" rel="noopener noreferrer" style={{
+                                fontFamily: 'Inter, sans-serif', fontSize: 12,
+                                color: lab.color, textDecoration: 'none',
+                              }}>Ver →</a>
+                            )}
+                          </div>
                         </div>
-                      </div>
-                    ))}
-                  </div>
+                      ))}
+                    </div>
+                  </ContentSection>
+                </FadeIn>
+              )}
+
+              {/* Eventos */}
+              {!loadingData && eventos.length > 0 && (
+                <FadeIn delay={.4}>
+                  <ContentSection label="Eventos" color={lab.color} topMargin>
+                    <div style={{
+                      background: B.surface, border: `1px solid ${B.border}`,
+                      borderRadius: 16, overflow: 'hidden',
+                    }}>
+                      {eventos.map((e, i) => (
+                        <div key={e._id} style={{
+                          padding: '18px 24px',
+                          borderBottom: i < eventos.length - 1 ? `1px solid ${B.border}` : 'none',
+                          display: 'grid', gridTemplateColumns: '1fr auto', gap: 12, alignItems: 'center',
+                        }}>
+                          <div>
+                            <div style={{
+                              fontFamily: 'Space Grotesk, sans-serif', fontSize: 15,
+                              fontWeight: 500, color: B.text, marginBottom: 4,
+                            }}>{e.titulo}</div>
+                            {e.lugar && (
+                              <div style={{
+                                fontFamily: 'Inter, sans-serif', fontSize: 12, color: B.muted,
+                              }}>{e.lugar}</div>
+                            )}
+                          </div>
+                          <div style={{ textAlign: 'right', flexShrink: 0 }}>
+                            <div style={{
+                              fontFamily: 'JetBrains Mono, monospace', fontSize: 11, color: B.muted,
+                            }}>{formatDate(e.fechaInicio)}</div>
+                            {e.fechaFin && (
+                              <div style={{
+                                fontFamily: 'JetBrains Mono, monospace', fontSize: 11, color: B.muted,
+                              }}>{formatDate(e.fechaFin)}</div>
+                            )}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </ContentSection>
                 </FadeIn>
               )}
             </div>

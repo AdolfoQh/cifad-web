@@ -48,6 +48,13 @@ export default defineType({
       of: [{ type: 'string' }],
     }),
     defineField({
+      name: 'mostrarEnHome',
+      title: 'Destacar en home',
+      type: 'boolean',
+      initialValue: false,
+      description: 'Activar para que esta novedad aparezca en la sección Novedades del sitio principal.',
+    }),
+    defineField({
       name: 'imagen',
       title: 'Imagen destacada',
       type: 'image',
