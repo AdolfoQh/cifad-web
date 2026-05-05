@@ -3,6 +3,7 @@ import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import Home from './pages/Home'
 import LabPage from './pages/LabPage'
+import StudioPage from './pages/Studio'
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           }
         />
         <Route path="/laboratorio/:slug" element={<LabPage />} />
+        <Route path="/studio/*" element={<StudioPage />} />
       </Routes>
     </BrowserRouter>
   )
