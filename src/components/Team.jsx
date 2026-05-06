@@ -30,6 +30,7 @@ const groups = [
 
 function GroupCard({ group, index }) {
   const [ref, inView] = useInView()
+  const isMobile = useIsMobile()
   return (
     <div ref={ref} style={{
       background: B.surface, border: `1px solid ${B.border}`,
@@ -46,7 +47,7 @@ function GroupCard({ group, index }) {
             src={group.image}
             alt={group.label}
             style={{
-              width: 120, height: 120, borderRadius: '50%',
+              width: isMobile ? 80 : 120, height: isMobile ? 80 : 120, borderRadius: '50%',
               objectFit: 'cover', objectPosition: 'center',
               border: `2px solid ${B.border}`,
             }}

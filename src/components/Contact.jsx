@@ -156,7 +156,10 @@ export default function Contact() {
               onMouseEnter={e => e.currentTarget.style.opacity = '.85'}
               onMouseLeave={e => e.currentTarget.style.opacity = '1'}
             >
-              Enviar mensaje ↗
+              Enviar mensaje
+              <svg width="14" height="14" viewBox="0 0 13 13" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M1.5 11.5L11.5 1.5M11.5 1.5H4.5M11.5 1.5V8.5"/>
+              </svg>
             </button>
           </form>
         </div>

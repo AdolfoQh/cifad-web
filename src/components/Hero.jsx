@@ -151,43 +151,47 @@ export default function Hero() {
             </div>
           </div>
 
-          {/* Stats 2×2 */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 24 }}>
-            {stats.map(s => (
-              <div key={s.label} style={{ borderTop: `1px solid ${B.border}`, paddingTop: 14 }}>
-                <div style={{
-                  fontFamily: 'Space Grotesk, sans-serif', fontSize: 34,
-                  fontWeight: 500, color: B.text, lineHeight: 1, letterSpacing: '-.02em',
-                }}>{s.value}</div>
-                <div style={{
-                  fontFamily: 'Inter, sans-serif', fontSize: 12,
-                  color: B.muted, marginTop: 6,
-                }}>{s.label}</div>
-              </div>
-            ))}
-          </div>
+          {/* Stats 2×2 — solo desktop */}
+          {!isMobile && (
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 24 }}>
+              {stats.map(s => (
+                <div key={s.label} style={{ borderTop: `1px solid ${B.border}`, paddingTop: 14 }}>
+                  <div style={{
+                    fontFamily: 'Space Grotesk, sans-serif', fontSize: 34,
+                    fontWeight: 500, color: B.text, lineHeight: 1, letterSpacing: '-.02em',
+                  }}>{s.value}</div>
+                  <div style={{
+                    fontFamily: 'Inter, sans-serif', fontSize: 12,
+                    color: B.muted, marginTop: 6,
+                  }}>{s.label}</div>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
 
-        {/* Tech chips */}
-        <div style={{
-          marginTop: 80, paddingTop: 24, borderTop: `1px solid ${B.border}`,
-          transition: 'opacity .9s ease', transitionDelay: '.4s',
-          opacity: mounted ? 1 : 0,
-        }}>
+        {/* Tech chips — solo desktop */}
+        {!isMobile && (
           <div style={{
-            fontFamily: 'JetBrains Mono, monospace', fontSize: 10,
-            color: B.muted, letterSpacing: '.15em', textTransform: 'uppercase', marginBottom: 16,
-          }}>// Tecnologías que investigamos</div>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-            {technologies.map(t => (
-              <span key={t} style={{
-                fontFamily: 'JetBrains Mono, monospace', fontSize: 12,
-                padding: '6px 14px', borderRadius: 999,
-                background: B.surface, border: `1px solid ${B.border}`, color: B.muted,
-              }}>{t}</span>
-            ))}
+            marginTop: 80, paddingTop: 24, borderTop: `1px solid ${B.border}`,
+            transition: 'opacity .9s ease', transitionDelay: '.4s',
+            opacity: mounted ? 1 : 0,
+          }}>
+            <div style={{
+              fontFamily: 'JetBrains Mono, monospace', fontSize: 10,
+              color: B.muted, letterSpacing: '.15em', textTransform: 'uppercase', marginBottom: 16,
+            }}>// Tecnologías que investigamos</div>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+              {technologies.map(t => (
+                <span key={t} style={{
+                  fontFamily: 'JetBrains Mono, monospace', fontSize: 12,
+                  padding: '6px 14px', borderRadius: 999,
+                  background: B.surface, border: `1px solid ${B.border}`, color: B.muted,
+                }}>{t}</span>
+              ))}
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </section>
   )

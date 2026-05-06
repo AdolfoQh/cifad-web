@@ -54,8 +54,11 @@ function LabCard({ lab, index }) {
             border: `1px solid ${hover ? B.text : B.border}`,
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             transition: 'all .3s', color: hover ? B.bg : B.text,
-            fontSize: 16,
-          }}>↗</span>
+          }}>
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M1.5 11.5L11.5 1.5M11.5 1.5H4.5M11.5 1.5V8.5"/>
+            </svg>
+          </span>
         </div>
 
         <h3 style={{
