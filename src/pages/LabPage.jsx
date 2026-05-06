@@ -144,7 +144,7 @@ export default function LabPage() {
             position: 'absolute', inset: 0,
             backgroundImage: `url(${lab.image})`,
             backgroundSize: 'cover', backgroundPosition: 'center',
-            opacity: .12, pointerEvents: 'none',
+            opacity: .28, pointerEvents: 'none',
           }}/>
         )}
         {/* Glow de color */}

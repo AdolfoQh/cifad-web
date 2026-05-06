@@ -66,8 +66,8 @@ export default function Home() {
       <Labs />
       <ResearchAreas />
       <Services />
-      {isMobile && <MobileStatsAndTech />}
       <Team />
+      {isMobile && <MobileStatsAndTech />}
       <Contact />
     </>
   )

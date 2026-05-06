@@ -22,7 +22,7 @@ function FadeIn({ children, delay = 0, style = {} }) {
 export default function About() {
   const isMobile = useIsMobile()
   return (
-    <section id="centro" style={{ background: B.bg, color: B.text, padding: isMobile ? '80px 20px' : '140px 32px', position: 'relative' }}>
+    <section id="centro" style={{ background: B.bg, color: B.text, padding: isMobile ? '56px 20px' : '140px 32px', position: 'relative' }}>
       <div style={{ maxWidth: 1280, margin: '0 auto' }}>
         <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 2fr', gap: isMobile ? 32 : 80, alignItems: 'start' }}>
           <FadeIn>

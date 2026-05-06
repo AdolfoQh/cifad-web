@@ -94,7 +94,7 @@ export default function News() {
   }, [])
 
   return (
-    <section id="novedades" style={{ background: B.bg2, color: B.text, padding: isMobile ? '80px 20px' : '140px 32px' }}>
+    <section id="novedades" style={{ background: B.bg2, color: B.text, padding: isMobile ? '56px 20px' : '140px 32px' }}>
       <div style={{ maxWidth: 1280, margin: '0 auto' }}>
         <div ref={ref} style={{
           display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end',

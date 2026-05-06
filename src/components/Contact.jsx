@@ -22,7 +22,7 @@ export default function Contact() {
   })
 
   return (
-    <section id="contacto" style={{ background: B.bg, color: B.text, padding: isMobile ? '80px 20px' : '140px 32px' }}>
+    <section id="contacto" style={{ background: B.bg, color: B.text, padding: isMobile ? '56px 20px' : '140px 32px' }}>
       <div style={{ maxWidth: 1280, margin: '0 auto' }}>
         {/* Header */}
         <div ref={ref} style={{

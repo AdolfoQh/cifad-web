@@ -84,7 +84,7 @@ export default function Team() {
   const [ref, inView] = useInView()
   const isMobile = useIsMobile()
   return (
-    <section id="equipo" style={{ background: B.bg, color: B.text, padding: isMobile ? '80px 20px' : '140px 32px' }}>
+    <section id="equipo" style={{ background: B.bg, color: B.text, padding: isMobile ? '56px 20px' : '140px 32px' }}>
       <div style={{ maxWidth: 1280, margin: '0 auto' }}>
         <div ref={ref} style={{
           transition: 'opacity .8s ease, transform .8s ease',

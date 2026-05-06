@@ -47,8 +47,10 @@ export default function Hero() {
   return (
     <section ref={sectionRef} style={{
       background: B.bg, color: B.text,
-      position: 'relative', minHeight: '100vh',
-      overflow: 'hidden', paddingTop: isMobile ? 100 : 120,
+      position: 'relative',
+      minHeight: isMobile ? 'auto' : '100vh',
+      paddingBottom: isMobile ? 60 : 0,
+      overflow: 'hidden', paddingTop: isMobile ? 96 : 120,
     }}>
       {/* Aurora */}
       <div style={{
