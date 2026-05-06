@@ -1,5 +1,6 @@
 import { useRef, useState, useEffect } from 'react'
 import { useInView } from '../hooks/useInView'
+import { useIsMobile } from '../hooks/useIsMobile'
 import { stats } from '../data/stats'
 import { technologies } from '../data/researchAreas'
 
@@ -25,6 +26,7 @@ export default function Hero() {
   const sectionRef = useRef(null)
   const [mouse, setMouse] = useState({ x: 0.5, y: 0.5 })
   const [mounted, setMounted] = useState(false)
+  const isMobile = useIsMobile()
 
   useEffect(() => {
     const t = setTimeout(() => setMounted(true), 80)
@@ -46,7 +48,7 @@ export default function Hero() {
     <section ref={sectionRef} style={{
       background: B.bg, color: B.text,
       position: 'relative', minHeight: '100vh',
-      overflow: 'hidden', paddingTop: 120,
+      overflow: 'hidden', paddingTop: isMobile ? 100 : 120,
     }}>
       {/* Aurora */}
       <div style={{
@@ -68,7 +70,7 @@ export default function Hero() {
         WebkitMaskImage: 'radial-gradient(ellipse at center, black 30%, transparent 75%)',
       }}/>
 
-      <div style={{ maxWidth: 1280, margin: '0 auto', padding: '40px 32px', position: 'relative' }}>
+      <div style={{ maxWidth: 1280, margin: '0 auto', padding: isMobile ? '24px 20px' : '40px 32px', position: 'relative' }}>
         {/* Badge */}
         <div style={{
           transition: 'opacity .7s ease, transform .7s ease',
@@ -113,7 +115,9 @@ export default function Hero() {
         {/* Bajada + stats */}
         <div style={{
           marginTop: 48,
-          display: 'grid', gridTemplateColumns: '2fr 1fr', gap: 60,
+          display: 'grid',
+          gridTemplateColumns: isMobile ? '1fr' : '2fr 1fr',
+          gap: isMobile ? 32 : 60,
           alignItems: 'end',
           transition: 'opacity .9s ease, transform .9s ease',
           transitionDelay: '.25s',

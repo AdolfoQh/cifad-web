@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { labs } from '../data/labs'
 import { useInView } from '../hooks/useInView'
+import { useIsMobile } from '../hooks/useIsMobile'
 
 const B = {
   bg: '#0a0e14', bg2: '#10151d', surface: '#161c26', border: '#222a36',
@@ -84,8 +85,9 @@ function LabCard({ lab, index }) {
 
 export default function Labs() {
   const [ref, inView] = useInView()
+  const isMobile = useIsMobile()
   return (
-    <section id="laboratorios" style={{ background: B.bg2, color: B.text, padding: '140px 32px' }}>
+    <section id="laboratorios" style={{ background: B.bg2, color: B.text, padding: isMobile ? '80px 20px' : '140px 32px' }}>
       <div style={{ maxWidth: 1280, margin: '0 auto' }}>
         <div ref={ref} style={{
           display: 'flex', justifyContent: 'space-between',
@@ -114,7 +116,7 @@ export default function Labs() {
           </div>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)', gap: 16 }}>
           {labs.map((lab, i) => <LabCard key={lab.id} lab={lab} index={i} />)}
         </div>
       </div>

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useInView } from '../hooks/useInView'
+import { useIsMobile } from '../hooks/useIsMobile'
 import { client } from '../sanity/client'
 
 const B = {
@@ -25,7 +26,44 @@ function formatYear(start, end) {
 
 function ProjectRow({ project, index }) {
   const [ref, inView] = useInView()
+  const isMobile = useIsMobile()
   const isActive = project.estado === 'en_curso'
+
+  if (isMobile) {
+    return (
+      <div ref={ref} style={{
+        padding: '16px 0', borderBottom: `1px solid ${B.border}`,
+        transition: `opacity .7s ease, transform .7s ease`,
+        transitionDelay: `${index * .07}s`,
+        opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(20px)',
+      }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 12 }}>
+          <span style={{
+            fontFamily: 'Space Grotesk, sans-serif', fontSize: 15, fontWeight: 500,
+            letterSpacing: '-.015em', color: B.text, flex: 1,
+          }}>{project.titulo}</span>
+          <span style={{
+            display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+            padding: '3px 10px', borderRadius: 999, flexShrink: 0,
+            background: isActive ? `${B.accent}20` : B.border,
+            border: `1px solid ${isActive ? B.accent : B.border}`,
+            fontFamily: 'JetBrains Mono, monospace', fontSize: 10,
+            color: isActive ? B.accent : B.muted,
+            textTransform: 'uppercase', letterSpacing: '.1em',
+          }}>{isActive ? 'En curso' : 'Finalizado'}</span>
+        </div>
+        <div style={{ display: 'flex', gap: 16, marginTop: 6 }}>
+          <span style={{ fontFamily: 'Inter, sans-serif', fontSize: 12, color: B.muted }}>
+            {labLabels[project.lab] || project.lab}
+          </span>
+          <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 11, color: B.muted }}>
+            {formatYear(project.fechaInicio, project.fechaFin)}
+          </span>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div ref={ref} style={{
       display: 'grid', gridTemplateColumns: '80px 1fr 180px 120px 100px',
@@ -72,6 +110,7 @@ export default function Projects() {
   const [ref, inView] = useInView()
   const [proyectos, setProyectos] = useState([])
   const [loading, setLoading] = useState(true)
+  const isMobile = useIsMobile()
 
   useEffect(() => {
     client.fetch(`*[_type == "proyecto"] | order(fechaInicio desc) {
@@ -83,7 +122,7 @@ export default function Projects() {
   }, [])
 
   return (
-    <section id="proyectos" style={{ background: B.bg, color: B.text, padding: '140px 32px' }}>
+    <section id="proyectos" style={{ background: B.bg, color: B.text, padding: isMobile ? '80px 20px' : '140px 32px' }}>
       <div style={{ maxWidth: 1280, margin: '0 auto' }}>
         <div ref={ref} style={{
           transition: 'opacity .8s ease, transform .8s ease',
@@ -121,19 +160,21 @@ export default function Projects() {
           </div>
         ) : (
           <>
-            {/* Table header */}
-            <div style={{
-              display: 'grid', gridTemplateColumns: '80px 1fr 180px 120px 100px',
-              gap: 24, padding: '0 0 16px',
-              borderBottom: `1px solid ${B.border}`,
-            }}>
-              {['#', 'Proyecto', 'Laboratorio', 'Período', 'Estado'].map(h => (
-                <span key={h} style={{
-                  fontFamily: 'JetBrains Mono, monospace', fontSize: 10,
-                  color: B.muted, textTransform: 'uppercase', letterSpacing: '.14em',
-                }}>{h}</span>
-              ))}
-            </div>
+            {/* Table header — solo desktop */}
+            {!isMobile && (
+              <div style={{
+                display: 'grid', gridTemplateColumns: '80px 1fr 180px 120px 100px',
+                gap: 24, padding: '0 0 16px',
+                borderBottom: `1px solid ${B.border}`,
+              }}>
+                {['#', 'Proyecto', 'Laboratorio', 'Período', 'Estado'].map(h => (
+                  <span key={h} style={{
+                    fontFamily: 'JetBrains Mono, monospace', fontSize: 10,
+                    color: B.muted, textTransform: 'uppercase', letterSpacing: '.14em',
+                  }}>{h}</span>
+                ))}
+              </div>
+            )}
             <div>
               {proyectos.map((p, i) => (
                 <ProjectRow key={p._id} project={p} index={i} />

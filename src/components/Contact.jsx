@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useInView } from '../hooks/useInView'
+import { useIsMobile } from '../hooks/useIsMobile'
 
 const B = {
   bg: '#0a0e14', surface: '#161c26', border: '#222a36',
@@ -9,6 +10,7 @@ const B = {
 export default function Contact() {
   const [ref, inView] = useInView()
   const [focused, setFocused] = useState(null)
+  const isMobile = useIsMobile()
 
   const inputStyle = (name) => ({
     width: '100%', background: B.surface,
@@ -20,7 +22,7 @@ export default function Contact() {
   })
 
   return (
-    <section id="contacto" style={{ background: B.bg, color: B.text, padding: '140px 32px' }}>
+    <section id="contacto" style={{ background: B.bg, color: B.text, padding: isMobile ? '80px 20px' : '140px 32px' }}>
       <div style={{ maxWidth: 1280, margin: '0 auto' }}>
         {/* Header */}
         <div ref={ref} style={{
@@ -45,7 +47,7 @@ export default function Contact() {
         </div>
 
         {/* Content grid */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.5fr', gap: 80, alignItems: 'start' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1.5fr', gap: isMobile ? 40 : 80, alignItems: 'start' }}>
           {/* Left: info */}
           <div>
             <p style={{
@@ -78,9 +80,9 @@ export default function Contact() {
           {/* Right: form */}
           <form style={{
             background: B.surface, border: `1px solid ${B.border}`,
-            borderRadius: 24, padding: 40,
+            borderRadius: 24, padding: isMobile ? 24 : 40,
           }}>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 16 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: 16, marginBottom: 16 }}>
               <div>
                 <label style={{
                   display: 'block', fontFamily: 'JetBrains Mono, monospace',

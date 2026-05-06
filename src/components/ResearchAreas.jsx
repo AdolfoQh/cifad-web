@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useInView } from '../hooks/useInView'
+import { useIsMobile } from '../hooks/useIsMobile'
 import { researchAreas } from '../data/researchAreas'
 
 const B = {
@@ -10,9 +11,10 @@ const B = {
 export default function ResearchAreas() {
   const [active, setActive] = useState(0)
   const [ref, inView] = useInView()
+  const isMobile = useIsMobile()
 
   return (
-    <section id="investigación" style={{ background: B.bg, color: B.text, padding: '140px 32px' }}>
+    <section id="investigación" style={{ background: B.bg, color: B.text, padding: isMobile ? '80px 20px' : '140px 32px' }}>
       <div style={{ maxWidth: 1280, margin: '0 auto' }}>
         <div ref={ref} style={{
           transition: 'opacity .8s ease, transform .8s ease',
@@ -37,7 +39,7 @@ export default function ResearchAreas() {
           </p>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.5fr', gap: 60 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1.5fr', gap: isMobile ? 32 : 60 }}>
           {/* Accordion */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
             {researchAreas.map((a, i) => (

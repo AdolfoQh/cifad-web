@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useInView } from '../hooks/useInView'
+import { useIsMobile } from '../hooks/useIsMobile'
 import { client, urlFor } from '../sanity/client'
 
 const B = {
@@ -81,6 +82,7 @@ export default function News() {
   const [ref, inView] = useInView()
   const [novedades, setNovedades] = useState([])
   const [loading, setLoading] = useState(true)
+  const isMobile = useIsMobile()
 
   useEffect(() => {
     client.fetch(`*[_type == "novedad" && mostrarEnHome == true] | order(fecha desc)[0..5] {
@@ -92,7 +94,7 @@ export default function News() {
   }, [])
 
   return (
-    <section id="novedades" style={{ background: B.bg2, color: B.text, padding: '140px 32px' }}>
+    <section id="novedades" style={{ background: B.bg2, color: B.text, padding: isMobile ? '80px 20px' : '140px 32px' }}>
       <div style={{ maxWidth: 1280, margin: '0 auto' }}>
         <div ref={ref} style={{
           display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end',
@@ -136,7 +138,7 @@ export default function News() {
             [ Las novedades se publicarán próximamente ]
           </div>
         ) : (
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)', gap: 16 }}>
             {novedades.map((item, i) => (
               <NewsCard key={item._id} item={item} index={i} />
             ))}

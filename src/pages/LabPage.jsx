@@ -4,6 +4,7 @@ import { labs } from '../data/labs'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import { useInView } from '../hooks/useInView'
+import { useIsMobile } from '../hooks/useIsMobile'
 import { client, urlFor } from '../sanity/client'
 import { team, researchers } from '../data/team'
 
@@ -63,6 +64,7 @@ function formatYear(start, end) {
 export default function LabPage() {
   const { slug } = useParams()
   const lab = labs.find((l) => l.slug === slug)
+  const isMobile = useIsMobile()
 
   const [proyectos, setProyectos] = useState([])
   const [novedades, setNovedades] = useState([])
@@ -133,8 +135,7 @@ export default function LabPage() {
 
       {/* Hero */}
       <section style={{
-        paddingTop: 160, paddingBottom: 100,
-        padding: '160px 32px 100px',
+        padding: isMobile ? '110px 20px 60px' : '160px 32px 100px',
         position: 'relative', overflow: 'hidden',
       }}>
         {/* Imagen de fondo del lab */}
@@ -188,9 +189,9 @@ export default function LabPage() {
       </section>
 
       {/* Main content */}
-      <section style={{ padding: '80px 32px 120px', background: B.bg2 }}>
+      <section style={{ padding: isMobile ? '48px 20px 80px' : '80px 32px 120px', background: B.bg2 }}>
         <div style={{ maxWidth: 1280, margin: '0 auto' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: 64, alignItems: 'start' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '2fr 1fr', gap: isMobile ? 32 : 64, alignItems: 'start' }}>
             {/* Left: description + áreas + proyectos + novedades */}
             <div>
               <FadeIn>

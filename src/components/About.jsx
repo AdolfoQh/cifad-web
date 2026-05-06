@@ -1,4 +1,5 @@
 import { useInView } from '../hooks/useInView'
+import { useIsMobile } from '../hooks/useIsMobile'
 
 const B = {
   bg: '#0a0e14', surface: '#161c26', border: '#222a36',
@@ -19,10 +20,11 @@ function FadeIn({ children, delay = 0, style = {} }) {
 }
 
 export default function About() {
+  const isMobile = useIsMobile()
   return (
-    <section id="centro" style={{ background: B.bg, color: B.text, padding: '140px 32px', position: 'relative' }}>
+    <section id="centro" style={{ background: B.bg, color: B.text, padding: isMobile ? '80px 20px' : '140px 32px', position: 'relative' }}>
       <div style={{ maxWidth: 1280, margin: '0 auto' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: 80, alignItems: 'start' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 2fr', gap: isMobile ? 32 : 80, alignItems: 'start' }}>
           <FadeIn>
             <div style={{
               fontFamily: 'JetBrains Mono, monospace', fontSize: 11,
@@ -48,7 +50,7 @@ export default function About() {
               en evidencia y no en intuición.
             </p>
 
-            <div style={{ marginTop: 48, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+            <div style={{ marginTop: 48, display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: 16 }}>
               {[
                 { t: 'Misión', d: 'Abordar proyectualmente la relación entre personas y tecnologías, en articulación con la academia, la industria y la sociedad.' },
                 { t: 'Visión', d: 'Desarrollar capacidades sostenidas de investigación, innovación y transferencia para anticipar, comprender y orientar el desarrollo tecnológico en el territorio y la sociedad.' },

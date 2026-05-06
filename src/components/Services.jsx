@@ -1,4 +1,5 @@
 import { useInView } from '../hooks/useInView'
+import { useIsMobile } from '../hooks/useIsMobile'
 import { services } from '../data/stats'
 
 const B = {
@@ -37,8 +38,9 @@ function ServiceCard({ s, index }) {
 
 export default function Services() {
   const [ref, inView] = useInView()
+  const isMobile = useIsMobile()
   return (
-    <section id="servicios" style={{ background: B.bg2, color: B.text, padding: '140px 32px' }}>
+    <section id="servicios" style={{ background: B.bg2, color: B.text, padding: isMobile ? '80px 20px' : '140px 32px' }}>
       <div style={{ maxWidth: 1280, margin: '0 auto' }}>
         <div ref={ref} style={{
           transition: 'opacity .8s ease, transform .8s ease',
@@ -65,7 +67,7 @@ export default function Services() {
           </p>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 16 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(2, 1fr)', gap: 16 }}>
           {services.map((s, i) => <ServiceCard key={s.title} s={s} index={i} />)}
         </div>
       </div>

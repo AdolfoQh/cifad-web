@@ -1,4 +1,5 @@
 import { useInView } from '../hooks/useInView'
+import { useIsMobile } from '../hooks/useIsMobile'
 import { team, researchers, collaborations } from '../data/team'
 
 const B = {
@@ -80,8 +81,9 @@ function GroupCard({ group, index }) {
 
 export default function Team() {
   const [ref, inView] = useInView()
+  const isMobile = useIsMobile()
   return (
-    <section id="equipo" style={{ background: B.bg, color: B.text, padding: '140px 32px' }}>
+    <section id="equipo" style={{ background: B.bg, color: B.text, padding: isMobile ? '80px 20px' : '140px 32px' }}>
       <div style={{ maxWidth: 1280, margin: '0 auto' }}>
         <div ref={ref} style={{
           transition: 'opacity .8s ease, transform .8s ease',
@@ -102,7 +104,7 @@ export default function Team() {
         </div>
 
         {/* Grupos con imagen */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16, marginBottom: 48 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)', gap: 16, marginBottom: 48 }}>
           {groups.map((g, i) => <GroupCard key={g.key} group={g} index={i} />)}
         </div>
 
@@ -112,7 +114,7 @@ export default function Team() {
             fontFamily: 'JetBrains Mono, monospace', fontSize: 10,
             color: B.muted, textTransform: 'uppercase', letterSpacing: '.18em', marginBottom: 16,
           }}>// Colaboraciones internacionales</div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)', gap: 16 }}>
             {collaborations.map(c => (
               <div key={c.name} style={{
                 padding: 24, borderRadius: 16,

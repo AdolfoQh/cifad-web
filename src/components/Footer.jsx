@@ -1,4 +1,5 @@
 import marcaSvg from '../assets/marca.svg'
+import { useIsMobile } from '../hooks/useIsMobile'
 
 const B = {
   bg: '#0a0e14', border: '#222a36',
@@ -6,14 +7,19 @@ const B = {
 }
 
 export default function Footer() {
+  const isMobile = useIsMobile()
   return (
     <footer style={{
       background: B.bg, borderTop: `1px solid ${B.border}`,
-      padding: '32px 32px',
+      padding: isMobile ? '28px 20px' : '32px 32px',
     }}>
       <div style={{
         maxWidth: 1280, margin: '0 auto',
-        display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 16,
+        display: 'flex',
+        flexDirection: isMobile ? 'column' : 'row',
+        alignItems: isMobile ? 'flex-start' : 'center',
+        justifyContent: 'space-between',
+        flexWrap: 'wrap', gap: isMobile ? 20 : 16,
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
           <img
@@ -29,7 +35,7 @@ export default function Footer() {
           </span>
         </div>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: 32 }}>
+        <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: isMobile ? 16 : 32 }}>
           {['#centro', '#laboratorios', '#investigación', '#equipo', '#contacto'].map((href, i) => {
             const labels = ['Centro', 'Labs', 'Investigación', 'Equipo', 'Contacto']
             return (
@@ -50,7 +56,7 @@ export default function Footer() {
 
         <p style={{
           fontFamily: 'JetBrains Mono, monospace', fontSize: 11,
-          color: B.muted, letterSpacing: '.06em',
+          color: B.muted, letterSpacing: '.06em', margin: 0,
         }}>
           © {new Date().getFullYear()} CIFAD
         </p>
