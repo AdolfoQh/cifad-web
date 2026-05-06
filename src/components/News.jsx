@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { useInView } from '../hooks/useInView'
 import { useIsMobile } from '../hooks/useIsMobile'
 import { client, urlFor } from '../sanity/client'
@@ -69,9 +70,10 @@ function NewsCard({ item, index }) {
           <time style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 11, color: B.muted }}>
             {formatDate(item.fecha)}
           </time>
-          <span style={{ fontFamily: 'Inter, sans-serif', fontSize: 13, color: B.accent2, cursor: 'pointer' }}>
+          <Link to={item.slug?.current ? `/novedades/${item.slug.current}` : '#'}
+            style={{ fontFamily: 'Inter, sans-serif', fontSize: 13, color: B.accent2, textDecoration: 'none' }}>
             Leer →
-          </span>
+          </Link>
         </div>
       </div>
     </article>
@@ -86,7 +88,7 @@ export default function News() {
 
   useEffect(() => {
     client.fetch(`*[_type == "novedad" && mostrarEnHome == true] | order(fecha desc)[0..5] {
-      _id, titulo, lab, fecha, resumen, imagen
+      _id, titulo, lab, fecha, resumen, imagen, slug
     }`).then(data => {
       setNovedades(data)
       setLoading(false)

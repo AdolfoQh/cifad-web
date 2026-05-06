@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useParams, Link } from 'react-router-dom'
+import { useParams, Link, useNavigate } from 'react-router-dom'
 import { labs } from '../data/labs'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
@@ -86,7 +86,7 @@ export default function LabPage() {
       ),
       client.fetch(
         `*[_type == "novedad" && lab == $lab] | order(fecha desc) {
-          _id, titulo, fecha, resumen, imagen
+          _id, titulo, fecha, resumen, imagen, slug
         }`,
         { lab: slug }
       ),
@@ -302,11 +302,18 @@ export default function LabPage() {
                   <ContentSection label="Novedades" color={lab.color} topMargin>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
                       {novedades.map((item) => (
-                        <div key={item._id} style={{
-                          background: B.surface, border: `1px solid ${B.border}`,
-                          borderRadius: 16, overflow: 'hidden',
-                          display: 'grid', gridTemplateColumns: item.imagen ? '120px 1fr' : '1fr',
-                        }}>
+                        <Link
+                          key={item._id}
+                          to={item.slug?.current ? `/novedades/${item.slug.current}` : '#'}
+                          style={{
+                            background: B.surface, border: `1px solid ${B.border}`,
+                            borderRadius: 16, overflow: 'hidden',
+                            display: 'grid', gridTemplateColumns: item.imagen ? '120px 1fr' : '1fr',
+                            textDecoration: 'none', transition: 'border-color .2s',
+                          }}
+                          onMouseEnter={e => e.currentTarget.style.borderColor = B.muted}
+                          onMouseLeave={e => e.currentTarget.style.borderColor = B.border}
+                        >
                           {item.imagen && (
                             <img
                               src={urlFor(item.imagen).width(240).height(160).url()}
@@ -329,8 +336,12 @@ export default function LabPage() {
                                 lineHeight: 1.5, color: B.muted, margin: 0,
                               }}>{item.resumen}</p>
                             )}
+                            <div style={{
+                              fontFamily: 'Inter, sans-serif', fontSize: 12,
+                              color: B.accent2, marginTop: 10,
+                            }}>Leer →</div>
                           </div>
-                        </div>
+                        </Link>
                       ))}
                     </div>
                   </ContentSection>

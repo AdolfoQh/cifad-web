@@ -3,6 +3,7 @@ import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import Home from './pages/Home'
 import LabPage from './pages/LabPage'
+import NovedadPage from './pages/NovedadPage'
 import StudioPage from './pages/Studio'
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
           }
         />
         <Route path="/laboratorio/:slug" element={<LabPage />} />
+        <Route path="/novedades/:slug" element={<NovedadPage />} />
       </Routes>
     </BrowserRouter>
   )
