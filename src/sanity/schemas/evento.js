@@ -7,20 +7,21 @@ export default defineType({
   fields: [
     defineField({
       name: 'titulo',
-      title: 'Título',
+      title: 'Título *',
       type: 'string',
       validation: R => R.required(),
     }),
     defineField({
       name: 'slug',
-      title: 'Slug (URL)',
+      title: 'Slug (URL) *',
       type: 'slug',
       options: { source: 'titulo', maxLength: 96 },
+      description: 'Hacé clic en "Generate" para generarlo automáticamente desde el título.',
       validation: R => R.required(),
     }),
     defineField({
       name: 'lab',
-      title: 'Laboratorio',
+      title: 'Laboratorio *',
       type: 'string',
       options: {
         list: [
@@ -37,7 +38,7 @@ export default defineType({
     }),
     defineField({
       name: 'fechaInicio',
-      title: 'Fecha de inicio',
+      title: 'Fecha de inicio *',
       type: 'datetime',
       validation: R => R.required(),
     }),

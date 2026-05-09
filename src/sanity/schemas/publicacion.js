@@ -7,20 +7,21 @@ export default defineType({
   fields: [
     defineField({
       name: 'titulo',
-      title: 'Título',
+      title: 'Título *',
       type: 'string',
       validation: R => R.required(),
     }),
     defineField({
       name: 'slug',
-      title: 'Slug (URL)',
+      title: 'Slug (URL) *',
       type: 'slug',
       options: { source: 'titulo', maxLength: 96 },
+      description: 'Hacé clic en "Generate" para generarlo automáticamente desde el título.',
       validation: R => R.required(),
     }),
     defineField({
       name: 'lab',
-      title: 'Laboratorio',
+      title: 'Laboratorio *',
       type: 'string',
       options: {
         list: [
@@ -37,7 +38,7 @@ export default defineType({
     }),
     defineField({
       name: 'fecha',
-      title: 'Fecha de publicación',
+      title: 'Fecha de publicación *',
       type: 'date',
       validation: R => R.required(),
     }),
@@ -91,7 +92,7 @@ export default defineType({
           ],
         },
       ],
-      description: 'Opcional — Podés agregar texto extendido e imágenes complementarias. Tamaño recomendado para imágenes: 1200 × 800 px.',
+      description: 'Opcional — Podés agregar texto extendido e imágenes complementarias. Tamaño recomendado: 1200 × 800 px.',
     }),
   ],
   preview: {
