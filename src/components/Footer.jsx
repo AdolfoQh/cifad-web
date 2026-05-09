@@ -1,16 +1,12 @@
 import marcaSvg from '../assets/marca.svg'
 import { useIsMobile } from '../hooks/useIsMobile'
-
-const B = {
-  bg: '#0a0e14', border: '#222a36',
-  text: '#eef0f3', muted: '#8a93a3', accent: '#ff7a3d',
-}
+import { T } from '../tokens'
 
 export default function Footer() {
   const isMobile = useIsMobile()
   return (
     <footer style={{
-      background: B.bg, borderTop: `1px solid ${B.border}`,
+      background: T.bg, borderTop: `1px solid ${T.border}`,
       padding: isMobile ? '28px 20px' : '32px 32px',
     }}>
       <div style={{
@@ -28,8 +24,8 @@ export default function Footer() {
             style={{ height: 28, width: 'auto', filter: 'brightness(0) invert(.5)' }}
           />
           <span style={{
-            fontFamily: 'JetBrains Mono, monospace', fontSize: 11,
-            color: B.muted, letterSpacing: '.08em',
+            fontFamily: T.display, fontSize: 11,
+            color: T.muted, letterSpacing: '.08em',
           }}>
             FAD · Universidad Nacional de Cuyo
           </span>
@@ -43,20 +39,20 @@ export default function Footer() {
                 key={href}
                 href={href}
                 style={{
-                  fontFamily: 'Inter, sans-serif', fontSize: 13,
-                  color: B.muted, textDecoration: 'none',
+                  fontFamily: T.body, fontSize: 13,
+                  color: T.muted, textDecoration: 'none',
                   transition: 'color .2s',
                 }}
-                onMouseEnter={e => e.currentTarget.style.color = B.text}
-                onMouseLeave={e => e.currentTarget.style.color = B.muted}
+                onMouseEnter={e => e.currentTarget.style.color = T.text}
+                onMouseLeave={e => e.currentTarget.style.color = T.muted}
               >{labels[i]}</a>
             )
           })}
         </div>
 
         <p style={{
-          fontFamily: 'JetBrains Mono, monospace', fontSize: 11,
-          color: B.muted, letterSpacing: '.06em', margin: 0,
+          fontFamily: T.body, fontSize: 11,
+          color: T.muted, letterSpacing: '.06em', margin: 0,
         }}>
           © {new Date().getFullYear()} CIFAD
         </p>

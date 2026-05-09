@@ -3,11 +3,7 @@ import { Link } from 'react-router-dom'
 import { labs } from '../data/labs'
 import { useInView } from '../hooks/useInView'
 import { useIsMobile } from '../hooks/useIsMobile'
-
-const B = {
-  bg: '#0a0e14', bg2: '#10151d', surface: '#161c26', border: '#222a36',
-  text: '#eef0f3', muted: '#8a93a3', accent: '#ff7a3d',
-}
+import { T, SectionLabel, MeshBlobs } from '../tokens'
 
 function LabCard({ lab, index }) {
   const [hover, setHover] = useState(false)
@@ -21,7 +17,7 @@ function LabCard({ lab, index }) {
       onMouseLeave={() => setHover(false)}
       style={{
         display: 'block', textDecoration: 'none',
-        background: B.surface, border: `1px solid ${B.border}`,
+        background: T.surface, border: `1px solid ${T.border}`,
         borderRadius: 20, padding: 28, cursor: 'pointer',
         position: 'relative', overflow: 'hidden',
         transition: 'opacity .7s ease, transform .7s ease, box-shadow .4s',
@@ -30,7 +26,7 @@ function LabCard({ lab, index }) {
         transform: inView ? (hover ? 'translateY(-4px)' : 'translateY(0)') : 'translateY(40px)',
         boxShadow: hover ? `0 20px 60px rgba(0,0,0,.4)` : 'none',
         minHeight: 320,
-        color: B.text,
+        color: T.text,
       }}
     >
       {/* Color glow */}
@@ -45,15 +41,15 @@ function LabCard({ lab, index }) {
         {/* Header */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 24 }}>
           <span style={{
-            fontFamily: 'JetBrains Mono, monospace', fontSize: 11,
-            color: B.muted, letterSpacing: '.12em',
+            fontFamily: T.body, fontSize: 11,
+            color: T.muted, letterSpacing: '.12em',
           }}>LAB / {lab.num}</span>
           <span style={{
             width: 32, height: 32, borderRadius: '50%', flexShrink: 0,
-            background: hover ? B.text : 'transparent',
-            border: `1px solid ${hover ? B.text : B.border}`,
+            background: hover ? T.accent : 'transparent',
+            border: `1px solid ${hover ? T.accent : T.border}`,
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            transition: 'all .3s', color: hover ? B.bg : B.text,
+            transition: 'all .3s', color: hover ? '#04041e' : T.accent,
           }}>
             <svg width="13" height="13" viewBox="0 0 13 13" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
               <path d="M1.5 11.5L11.5 1.5M11.5 1.5H4.5M11.5 1.5V8.5"/>
@@ -62,23 +58,24 @@ function LabCard({ lab, index }) {
         </div>
 
         <h3 style={{
-          fontFamily: 'Space Grotesk, sans-serif', fontWeight: 500,
+          fontFamily: T.display, fontWeight: 700,
           fontSize: 24, lineHeight: 1.15, letterSpacing: '-.02em',
-          color: B.text, margin: 0, marginBottom: 12, flex: 1,
+          textTransform: 'uppercase',
+          color: T.text, margin: 0, marginBottom: 12, flex: 1,
         }}>{lab.name}</h3>
 
         <p style={{
-          fontFamily: 'Inter, sans-serif', fontSize: 14,
-          lineHeight: 1.6, color: B.muted, margin: 0,
+          fontFamily: T.body, fontSize: 14,
+          lineHeight: 1.6, color: T.muted, margin: 0,
         }}>{lab.shortDescription}</p>
 
-        <div style={{ marginTop: 20, paddingTop: 16, borderTop: `1px solid ${B.border}` }}>
+        <div style={{ marginTop: 20, paddingTop: 16, borderTop: `1px solid ${T.border}` }}>
           <div style={{
-            fontFamily: 'JetBrains Mono, monospace', fontSize: 10,
-            color: B.muted, textTransform: 'uppercase', letterSpacing: '.12em', marginBottom: 4,
+            fontFamily: T.body, fontSize: 10,
+            color: T.muted, textTransform: 'uppercase', letterSpacing: '.12em', marginBottom: 4,
           }}>responsable</div>
           <div style={{
-            fontFamily: 'Inter, sans-serif', fontSize: 13, color: B.text,
+            fontFamily: T.body, fontSize: 13, color: T.text,
           }}>{lab.responsible[0]}</div>
         </div>
       </div>
@@ -90,8 +87,17 @@ export default function Labs() {
   const [ref, inView] = useInView()
   const isMobile = useIsMobile()
   return (
-    <section id="laboratorios" style={{ background: B.bg2, color: B.text, padding: isMobile ? '56px 20px' : '140px 32px' }}>
-      <div style={{ maxWidth: 1280, margin: '0 auto' }}>
+    <section id="laboratorios" style={{
+      background: T.surface, color: T.text,
+      padding: isMobile ? '56px 20px' : '140px 32px',
+      position: 'relative', overflow: 'hidden',
+    }}>
+      <MeshBlobs blobs={[
+        { color: T.accent, opacity: .20, size: 500, top: -100, right: -150 },
+        { color: T.accent, opacity: .20, size: 500, top: -80, left: -130 },
+      ]} />
+
+      <div style={{ maxWidth: 1280, margin: '0 auto', position: 'relative', zIndex: 1 }}>
         <div ref={ref} style={{
           display: 'flex', justifyContent: 'space-between',
           alignItems: 'flex-end', marginBottom: 60, flexWrap: 'wrap', gap: 24,
@@ -99,20 +105,17 @@ export default function Labs() {
           opacity: inView ? 1 : 0, transform: inView ? 'translateY(0)' : 'translateY(32px)',
         }}>
           <div>
-            <div style={{
-              fontFamily: 'JetBrains Mono, monospace', fontSize: 11,
-              color: B.accent, textTransform: 'uppercase', letterSpacing: '.18em', marginBottom: 14,
-            }}>// 03 Laboratorios</div>
+            <SectionLabel num="03" label="Laboratorios" />
             <h2 style={{
-              fontFamily: 'Space Grotesk, sans-serif', fontWeight: 500,
+              fontFamily: T.display, fontWeight: 700,
               fontSize: 'clamp(40px, 6vw, 88px)', lineHeight: 1, letterSpacing: '-.035em', margin: 0,
-              marginBottom: 16,
+              marginBottom: 16, textTransform: 'uppercase',
             }}>
               Laboratorios.
             </h2>
             <p style={{
-              fontFamily: 'Inter, sans-serif', fontSize: 18, lineHeight: 1.6,
-              color: B.muted, maxWidth: 500, margin: 0,
+              fontFamily: T.body, fontSize: 18, lineHeight: 1.6,
+              color: T.muted, maxWidth: 500, margin: 0,
             }}>
               Ecosistema de trabajo que activa conocimiento y lo valida.
             </p>

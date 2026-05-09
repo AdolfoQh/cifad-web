@@ -1,10 +1,6 @@
 import { useInView } from '../hooks/useInView'
 import { useIsMobile } from '../hooks/useIsMobile'
-
-const B = {
-  bg: '#0a0e14', surface: '#161c26', border: '#222a36',
-  text: '#eef0f3', muted: '#8a93a3', accent: '#ff7a3d',
-}
+import { T, SectionLabel } from '../tokens'
 
 function FadeIn({ children, delay = 0, style = {} }) {
   const [ref, inView] = useInView()
@@ -22,27 +18,25 @@ function FadeIn({ children, delay = 0, style = {} }) {
 export default function About() {
   const isMobile = useIsMobile()
   return (
-    <section id="centro" style={{ background: B.bg, color: B.text, padding: isMobile ? '56px 20px' : '140px 32px', position: 'relative' }}>
+    <section id="centro" style={{ background: T.bg, color: T.text, padding: isMobile ? '56px 20px' : '140px 32px', position: 'relative' }}>
       <div style={{ maxWidth: 1280, margin: '0 auto' }}>
         <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 2fr', gap: isMobile ? 32 : 80, alignItems: 'start' }}>
           <FadeIn>
-            <div style={{
-              fontFamily: 'JetBrains Mono, monospace', fontSize: 11,
-              color: B.accent, textTransform: 'uppercase', letterSpacing: '.18em',
-            }}>// 02 Sobre</div>
+            <SectionLabel num="01" label="Centro" />
           </FadeIn>
           <FadeIn delay={.1}>
             <h2 style={{
-              fontFamily: 'Space Grotesk, sans-serif', fontWeight: 500,
+              fontFamily: T.display, fontWeight: 700,
               fontSize: 'clamp(36px, 5vw, 72px)', lineHeight: 1, letterSpacing: '-.03em',
+              textTransform: 'uppercase',
               margin: 0, marginBottom: 24,
             }}>
               Investigación que<br/>
-              <span style={{ color: B.muted }}>se vuelve acción.</span>
+              <span style={{ color: T.muted }}>se vuelve acción.</span>
             </h2>
             <p style={{
-              fontFamily: 'Inter, sans-serif', fontSize: 18, lineHeight: 1.6,
-              color: B.muted, maxWidth: 720, margin: 0,
+              fontFamily: T.body, fontSize: 18, lineHeight: 1.6,
+              color: T.muted, maxWidth: 720, margin: 0,
             }}>
               El Centro de Investigación en Tecnologías Emergentes de la Facultad de Artes y Diseño
               de la Universidad Nacional de Cuyo, en Mendoza, Argentina, trabaja en la articulación
@@ -58,17 +52,17 @@ export default function About() {
                 <FadeIn key={c.t} delay={.2 + i * .1}>
                   <div style={{
                     padding: 28, borderRadius: 16,
-                    background: B.surface, border: `1px solid ${B.border}`,
+                    background: T.surface, border: `1px solid ${T.border}`,
                     height: '100%',
                   }}>
                     <div style={{
-                      fontFamily: 'JetBrains Mono, monospace', fontSize: 10,
-                      color: B.accent, letterSpacing: '.15em',
+                      fontFamily: T.body, fontSize: 10,
+                      color: T.accent, letterSpacing: '.15em',
                       textTransform: 'uppercase', marginBottom: 12,
                     }}>{c.t}</div>
                     <p style={{
-                      fontFamily: 'Inter, sans-serif', fontSize: 15,
-                      lineHeight: 1.6, color: B.text, margin: 0,
+                      fontFamily: T.body, fontSize: 15,
+                      lineHeight: 1.6, color: T.text, margin: 0,
                     }}>{c.d}</p>
                   </div>
                 </FadeIn>

@@ -5,11 +5,7 @@ import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import { client, urlFor } from '../sanity/client'
 import { useIsMobile } from '../hooks/useIsMobile'
-
-const B = {
-  bg: '#0a0e14', bg2: '#10151d', surface: '#161c26', border: '#222a36',
-  text: '#eef0f3', muted: '#8a93a3', accent: '#ff7a3d', accent2: '#7c9eff',
-}
+import { T } from '../tokens'
 
 const labLabels = {
   general: 'General CIFAD',
@@ -30,40 +26,41 @@ const ptComponents = {
   block: {
     normal: ({ children }) => (
       <p style={{
-        fontFamily: 'Inter, sans-serif', fontSize: 17, lineHeight: 1.75,
-        color: B.muted, margin: '0 0 24px',
+        fontFamily: T.body, fontSize: 17, lineHeight: 1.75,
+        color: T.muted, margin: '0 0 24px',
       }}>{children}</p>
     ),
     h2: ({ children }) => (
       <h2 style={{
-        fontFamily: 'Space Grotesk, sans-serif', fontWeight: 500, fontSize: 28,
-        letterSpacing: '-.02em', color: B.text, margin: '48px 0 16px',
+        fontFamily: T.display, fontWeight: 700, fontSize: 28,
+        letterSpacing: '-.02em', textTransform: 'uppercase',
+        color: T.text, margin: '48px 0 16px',
       }}>{children}</h2>
     ),
     h3: ({ children }) => (
       <h3 style={{
-        fontFamily: 'Space Grotesk, sans-serif', fontWeight: 500, fontSize: 22,
-        letterSpacing: '-.015em', color: B.text, margin: '36px 0 12px',
+        fontFamily: T.display, fontWeight: 700, fontSize: 22,
+        letterSpacing: '-.015em', color: T.text, margin: '36px 0 12px',
       }}>{children}</h3>
     ),
     blockquote: ({ children }) => (
       <blockquote style={{
-        borderLeft: `3px solid ${B.accent}`, paddingLeft: 20, margin: '32px 0',
-        fontFamily: 'Inter, sans-serif', fontSize: 17, fontStyle: 'italic',
-        color: B.text, lineHeight: 1.7,
+        borderLeft: `3px solid ${T.accent}`, paddingLeft: 20, margin: '32px 0',
+        fontFamily: T.body, fontSize: 17, fontStyle: 'italic',
+        color: T.text, lineHeight: 1.7,
       }}>{children}</blockquote>
     ),
   },
   marks: {
     strong: ({ children }) => (
-      <strong style={{ color: B.text, fontWeight: 600 }}>{children}</strong>
+      <strong style={{ color: T.text, fontWeight: 600 }}>{children}</strong>
     ),
     em: ({ children }) => (
       <em style={{ fontStyle: 'italic' }}>{children}</em>
     ),
     link: ({ value, children }) => (
       <a href={value?.href} target="_blank" rel="noopener noreferrer"
-        style={{ color: B.accent2, textDecoration: 'underline', textUnderlineOffset: 3 }}>
+        style={{ color: T.accent, textDecoration: 'underline', textUnderlineOffset: 3 }}>
         {children}
       </a>
     ),
@@ -74,12 +71,12 @@ const ptComponents = {
         <img
           src={urlFor(value).width(900).url()}
           alt={value.caption || ''}
-          style={{ width: '100%', borderRadius: 12, display: 'block', border: `1px solid ${B.border}` }}
+          style={{ width: '100%', borderRadius: 12, display: 'block', border: `1px solid ${T.border}` }}
         />
         {value.caption && (
           <figcaption style={{
-            fontFamily: 'JetBrains Mono, monospace', fontSize: 11,
-            color: B.muted, marginTop: 10, textAlign: 'center', letterSpacing: '.05em',
+            fontFamily: T.body, fontSize: 11,
+            color: T.muted, marginTop: 10, textAlign: 'center', letterSpacing: '.05em',
           }}>{value.caption}</figcaption>
         )}
       </figure>
@@ -109,9 +106,9 @@ export default function NovedadPage() {
 
   if (loading) {
     return (
-      <div style={{ minHeight: '100vh', background: B.bg, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <div style={{ minHeight: '100vh', background: T.bg, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <Navbar />
-        <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 11, color: B.muted, letterSpacing: '.15em' }}>
+        <span style={{ fontFamily: T.body, fontSize: 11, color: T.muted, letterSpacing: '.15em' }}>
           Cargando...
         </span>
       </div>
@@ -120,13 +117,13 @@ export default function NovedadPage() {
 
   if (!novedad) {
     return (
-      <div style={{ minHeight: '100vh', background: B.bg, color: B.text }}>
+      <div style={{ minHeight: '100vh', background: T.bg, color: T.text }}>
         <Navbar />
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '80vh', flexDirection: 'column', gap: 16 }}>
-          <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 11, color: B.muted, letterSpacing: '.18em' }}>
+          <span style={{ fontFamily: T.body, fontSize: 11, color: T.muted, letterSpacing: '.18em' }}>
             404 — No encontrado
           </span>
-          <Link to="/" style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 18, color: B.accent, textDecoration: 'none' }}>
+          <Link to="/" style={{ fontFamily: T.display, fontSize: 18, fontWeight: 700, color: T.accent, textDecoration: 'none' }}>
             ← Volver al inicio
           </Link>
         </div>
@@ -136,15 +133,15 @@ export default function NovedadPage() {
   }
 
   return (
-    <div style={{ minHeight: '100vh', background: B.bg, color: B.text }}>
+    <div style={{ minHeight: '100vh', background: T.bg, color: T.text }}>
       <Navbar />
 
       {/* Hero */}
-      <section style={{ padding: isMobile ? '100px 20px 48px' : '140px 32px 80px', background: B.bg, position: 'relative', overflow: 'hidden' }}>
-        {/* Glow */}
+      <section style={{ padding: isMobile ? '100px 20px 48px' : '140px 32px 80px', background: T.bg, position: 'relative', overflow: 'hidden' }}>
+        {/* Glow mint */}
         <div style={{
           position: 'absolute', top: -80, right: -80, width: 500, height: 500,
-          borderRadius: '50%', background: B.accent,
+          borderRadius: '50%', background: T.accent,
           opacity: .05, filter: 'blur(100px)', pointerEvents: 'none',
         }}/>
 
@@ -154,12 +151,12 @@ export default function NovedadPage() {
             to={novedad.lab ? `/laboratorio/${novedad.lab}` : '/'}
             style={{
               display: 'inline-flex', alignItems: 'center', gap: 8,
-              fontFamily: 'Inter, sans-serif', fontSize: 13,
-              color: B.muted, textDecoration: 'none', marginBottom: 40,
+              fontFamily: T.body, fontSize: 13,
+              color: T.muted, textDecoration: 'none', marginBottom: 40,
               transition: 'color .2s',
             }}
-            onMouseEnter={e => e.currentTarget.style.color = B.text}
-            onMouseLeave={e => e.currentTarget.style.color = B.muted}
+            onMouseEnter={e => e.currentTarget.style.color = T.text}
+            onMouseLeave={e => e.currentTarget.style.color = T.muted}
           >
             ← {labLabels[novedad.lab] || 'Laboratorio'}
           </Link>
@@ -167,27 +164,27 @@ export default function NovedadPage() {
           {/* Meta */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 16, flexWrap: 'wrap', marginBottom: 24 }}>
             <span style={{
-              fontFamily: 'JetBrains Mono, monospace', fontSize: 10,
-              color: B.accent, textTransform: 'uppercase', letterSpacing: '.15em',
-              background: `${B.accent}15`, border: `1px solid ${B.accent}30`,
+              fontFamily: T.body, fontSize: 10,
+              color: T.accent, textTransform: 'uppercase', letterSpacing: '.15em',
+              background: `${T.accent}15`, border: `1px solid ${T.accent}30`,
               padding: '4px 12px', borderRadius: 999,
             }}>{labLabels[novedad.lab] || novedad.lab}</span>
-            <time style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 11, color: B.muted }}>
+            <time style={{ fontFamily: T.body, fontSize: 11, color: T.muted }}>
               {formatDate(novedad.fecha)}
             </time>
           </div>
 
           {/* Título */}
           <h1 style={{
-            fontFamily: 'Space Grotesk, sans-serif', fontWeight: 500,
+            fontFamily: T.display, fontWeight: 700,
             fontSize: isMobile ? 'clamp(28px, 7vw, 40px)' : 'clamp(36px, 4vw, 56px)',
-            lineHeight: 1.08, letterSpacing: '-.03em',
-            color: B.text, margin: 0, marginBottom: 20,
+            lineHeight: 1.08, letterSpacing: '-.03em', textTransform: 'uppercase',
+            color: T.text, margin: 0, marginBottom: 20,
           }}>{novedad.titulo}</h1>
 
           {/* Autores */}
           {novedad.autores && novedad.autores.length > 0 && (
-            <div style={{ fontFamily: 'Inter, sans-serif', fontSize: 14, color: B.muted }}>
+            <div style={{ fontFamily: T.body, fontSize: 14, color: T.muted }}>
               {novedad.autores.join(' · ')}
             </div>
           )}
@@ -196,14 +193,14 @@ export default function NovedadPage() {
 
       {/* Imagen destacada */}
       {novedad.imagen && (
-        <div style={{ background: B.bg, padding: isMobile ? '0 20px 48px' : '0 32px 80px' }}>
+        <div style={{ background: T.bg, padding: isMobile ? '0 20px 48px' : '0 32px 80px' }}>
           <div style={{ maxWidth: 780, margin: '0 auto' }}>
             <img
               src={urlFor(novedad.imagen).width(1200).height(630).url()}
               alt={novedad.titulo}
               style={{
                 width: '100%', borderRadius: 16,
-                display: 'block', border: `1px solid ${B.border}`,
+                display: 'block', border: `1px solid ${T.border}`,
               }}
             />
           </div>
@@ -211,12 +208,12 @@ export default function NovedadPage() {
       )}
 
       {/* Cuerpo */}
-      <section style={{ background: B.bg2, padding: isMobile ? '48px 20px 80px' : '80px 32px 120px' }}>
+      <section style={{ background: T.surface, padding: isMobile ? '48px 20px 80px' : '80px 32px 120px' }}>
         <div style={{ maxWidth: 780, margin: '0 auto' }}>
           {novedad.resumen && !novedad.cuerpo && (
             <p style={{
-              fontFamily: 'Inter, sans-serif', fontSize: 18, lineHeight: 1.7,
-              color: B.muted, margin: 0,
+              fontFamily: T.body, fontSize: 18, lineHeight: 1.7,
+              color: T.muted, margin: 0,
             }}>{novedad.resumen}</p>
           )}
 
@@ -228,8 +225,8 @@ export default function NovedadPage() {
 
           {!novedad.cuerpo && !novedad.resumen && (
             <p style={{
-              fontFamily: 'JetBrains Mono, monospace', fontSize: 11,
-              color: B.muted, letterSpacing: '.14em', textAlign: 'center', padding: '60px 0',
+              fontFamily: T.body, fontSize: 11,
+              color: T.muted, letterSpacing: '.14em', textAlign: 'center', padding: '60px 0',
             }}>[ Contenido próximamente ]</p>
           )}
         </div>

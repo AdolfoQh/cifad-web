@@ -3,11 +3,7 @@ import { useInView } from '../hooks/useInView'
 import { useIsMobile } from '../hooks/useIsMobile'
 import { stats } from '../data/stats'
 import { technologies } from '../data/researchAreas'
-
-const B = {
-  bg: '#0a0e14', bg2: '#10151d', surface: '#161c26', border: '#222a36',
-  text: '#eef0f3', muted: '#8a93a3', accent: '#ff7a3d', accent2: '#7c9eff', glow: '#5e98c2',
-}
+import { T, MeshBlobs } from '../tokens'
 
 function FadeIn({ children, delay = 0, style = {} }) {
   const [ref, inView] = useInView()
@@ -24,7 +20,6 @@ function FadeIn({ children, delay = 0, style = {} }) {
 
 export default function Hero() {
   const sectionRef = useRef(null)
-  const [mouse, setMouse] = useState({ x: 0.5, y: 0.5 })
   const [mounted, setMounted] = useState(false)
   const isMobile = useIsMobile()
 
@@ -33,47 +28,23 @@ export default function Hero() {
     return () => clearTimeout(t)
   }, [])
 
-  useEffect(() => {
-    const onMove = (e) => {
-      if (!sectionRef.current) return
-      const r = sectionRef.current.getBoundingClientRect()
-      setMouse({ x: (e.clientX - r.left) / r.width, y: (e.clientY - r.top) / r.height })
-    }
-    const el = sectionRef.current
-    el?.addEventListener('mousemove', onMove)
-    return () => el?.removeEventListener('mousemove', onMove)
-  }, [])
-
   return (
     <section ref={sectionRef} style={{
-      background: B.bg, color: B.text,
+      background: T.bg, color: T.text,
       position: 'relative',
       minHeight: isMobile ? 'auto' : '100vh',
       paddingBottom: isMobile ? 60 : 0,
       overflow: 'hidden', paddingTop: isMobile ? 96 : 120,
     }}>
-      {/* Aurora */}
-      <div style={{
-        position: 'absolute', inset: 0, pointerEvents: 'none',
-        background: `
-          radial-gradient(circle at ${mouse.x * 100}% ${mouse.y * 100}%, ${B.accent}22 0%, transparent 40%),
-          radial-gradient(circle at ${(1 - mouse.x) * 100}% ${(1 - mouse.y) * 100}%, ${B.accent2}1f 0%, transparent 50%),
-          radial-gradient(circle at 80% 20%, ${B.glow}1a 0%, transparent 35%)
-        `,
-        transition: 'background .5s ease',
-      }}/>
+      {/* Mesh blobs */}
+      <MeshBlobs blobs={[
+        { color: '#1C4F7A', opacity: .85, size: 700, top: -100, left: -200 },
+        { color: '#D44B27', opacity: .30, size: 700, bottom: -150, right: -200 },
+        { color: '#72E9B8', opacity: .10, size: 380, top: '50%', left: '50%', transform: 'translate(-50%,-50%)' },
+      ]} />
 
-      {/* Grid */}
-      <div style={{
-        position: 'absolute', inset: 0, pointerEvents: 'none', opacity: .2,
-        backgroundImage: `linear-gradient(${B.border} 1px, transparent 1px), linear-gradient(90deg, ${B.border} 1px, transparent 1px)`,
-        backgroundSize: '60px 60px',
-        maskImage: 'radial-gradient(ellipse at center, black 30%, transparent 75%)',
-        WebkitMaskImage: 'radial-gradient(ellipse at center, black 30%, transparent 75%)',
-      }}/>
-
-      <div style={{ maxWidth: 1280, margin: '0 auto', padding: isMobile ? '24px 20px' : '40px 32px', position: 'relative' }}>
-        {/* Badge */}
+      <div style={{ maxWidth: 1280, margin: '0 auto', padding: isMobile ? '24px 20px' : '40px 32px', position: 'relative', zIndex: 1 }}>
+        {/* Eyebrow tag */}
         <div style={{
           transition: 'opacity .7s ease, transform .7s ease',
           opacity: mounted ? 1 : 0,
@@ -81,13 +52,19 @@ export default function Hero() {
         }}>
           <div style={{
             display: 'inline-flex', alignItems: 'center', gap: 10,
-            padding: '6px 14px 6px 8px', borderRadius: 999,
-            background: B.surface, border: `1px solid ${B.border}`,
-            fontFamily: 'JetBrains Mono, monospace', fontSize: 11,
-            color: B.muted, marginBottom: 36,
+            padding: '6px 14px', borderRadius: 999,
+            border: '1px solid rgba(114,233,184,.35)',
+            marginBottom: 36,
           }}>
-            <span style={{ width: 6, height: 6, borderRadius: '50%', background: B.accent, boxShadow: `0 0 12px ${B.accent}` }}/>
-            CiFAD · UNCuyo · Investigación abierta 2026
+            <span style={{
+              fontFamily: T.body, fontSize: 11, fontWeight: 600,
+              color: T.accent, letterSpacing: '.08em',
+            }}>FAD — UNC</span>
+            <span style={{ width: 1, height: 12, background: 'rgba(114,233,184,.3)' }} />
+            <span style={{
+              fontFamily: T.body, fontSize: 11,
+              color: T.muted, letterSpacing: '.06em',
+            }}>Est. Córdoba</span>
           </div>
         </div>
 
@@ -99,18 +76,14 @@ export default function Hero() {
           transform: mounted ? 'translateY(0)' : 'translateY(28px)',
         }}>
           <h1 style={{
-            fontFamily: 'Space Grotesk, sans-serif', fontWeight: 500,
-            fontSize: 'clamp(48px, 8.5vw, 140px)',
-            lineHeight: .92, letterSpacing: '-.045em',
-            color: B.text, margin: 0, maxWidth: 1100,
+            fontFamily: T.display, fontWeight: 700,
+            fontSize: 'clamp(52px, 8vw, 120px)',
+            lineHeight: .92, letterSpacing: '-.03em',
+            textTransform: 'uppercase',
+            color: T.text, margin: 0, maxWidth: 1100,
           }}>
             Cuando la tecnología<br/>
-            <span style={{
-              background: `linear-gradient(95deg, ${B.accent} 0%, ${B.accent2} 50%, ${B.glow} 100%)`,
-              WebkitBackgroundClip: 'text', backgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              fontStyle: 'italic', fontWeight: 400,
-            }}>cobra sentido.</span>
+            <span style={{ color: T.accent }}>cobra sentido.</span>
           </h1>
         </div>
 
@@ -128,26 +101,27 @@ export default function Hero() {
         }}>
           <div>
             <p style={{
-              fontFamily: 'Inter, sans-serif', fontSize: 18, lineHeight: 1.6,
-              color: B.muted, maxWidth: 580, margin: 0,
+              fontFamily: T.body, fontSize: 18, lineHeight: 1.6,
+              color: T.muted, maxWidth: 580, margin: 0,
             }}>
               La persona en el origen de todo lo que investigamos, en articulación con la academia,
               el sector productivo y la sociedad, para que el conocimiento se convierta en acción.
             </p>
             <div style={{ marginTop: 32, display: 'flex', gap: 12, flexWrap: 'wrap' }}>
               <a href="#laboratorios" style={{
-                background: B.text, color: B.bg, border: 'none',
-                padding: '14px 22px', cursor: 'pointer',
-                fontFamily: 'Inter, sans-serif', fontSize: 14, fontWeight: 500,
-                borderRadius: 999, display: 'inline-flex', alignItems: 'center', gap: 8,
+                background: T.accent, color: '#04041e', border: 'none',
+                padding: '14px 28px', cursor: 'pointer',
+                fontFamily: T.display, fontSize: 13, fontWeight: 700,
+                letterSpacing: '.06em', textTransform: 'uppercase',
+                borderRadius: 2, display: 'inline-flex', alignItems: 'center', gap: 8,
                 textDecoration: 'none',
               }}>Explorar laboratorios →</a>
               <a href="#servicios" style={{
-                background: 'transparent', color: B.text,
-                border: `1px solid ${B.border}`,
-                padding: '14px 22px', cursor: 'pointer',
-                fontFamily: 'Inter, sans-serif', fontSize: 14, fontWeight: 500,
-                borderRadius: 999, display: 'inline-flex', alignItems: 'center', gap: 8,
+                background: 'transparent', color: T.muted,
+                border: `1px solid ${T.border}`,
+                padding: '13px 22px', cursor: 'pointer',
+                fontFamily: T.body, fontSize: 12,
+                borderRadius: 2, display: 'inline-flex', alignItems: 'center', gap: 8,
                 textDecoration: 'none',
               }}>Servicios de consultoría</a>
             </div>
@@ -157,14 +131,14 @@ export default function Hero() {
           {!isMobile && (
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 24 }}>
               {stats.map(s => (
-                <div key={s.label} style={{ borderTop: `1px solid ${B.border}`, paddingTop: 14 }}>
+                <div key={s.label} style={{ borderTop: `1px solid ${T.border}`, paddingTop: 14 }}>
                   <div style={{
-                    fontFamily: 'Space Grotesk, sans-serif', fontSize: 34,
-                    fontWeight: 500, color: B.text, lineHeight: 1, letterSpacing: '-.02em',
+                    fontFamily: T.display, fontSize: 34,
+                    fontWeight: 700, color: T.text, lineHeight: 1, letterSpacing: '-.02em',
                   }}>{s.value}</div>
                   <div style={{
-                    fontFamily: 'Inter, sans-serif', fontSize: 12,
-                    color: B.muted, marginTop: 6,
+                    fontFamily: T.body, fontSize: 12,
+                    color: T.muted, marginTop: 6,
                   }}>{s.label}</div>
                 </div>
               ))}
@@ -175,20 +149,20 @@ export default function Hero() {
         {/* Tech chips — solo desktop */}
         {!isMobile && (
           <div style={{
-            marginTop: 80, paddingTop: 24, borderTop: `1px solid ${B.border}`,
+            marginTop: 80, paddingTop: 24, borderTop: `1px solid ${T.border}`,
             transition: 'opacity .9s ease', transitionDelay: '.4s',
             opacity: mounted ? 1 : 0,
           }}>
             <div style={{
-              fontFamily: 'JetBrains Mono, monospace', fontSize: 10,
-              color: B.muted, letterSpacing: '.15em', textTransform: 'uppercase', marginBottom: 16,
-            }}>// Tecnologías que investigamos</div>
+              fontFamily: T.body, fontSize: 10,
+              color: T.muted, letterSpacing: '.15em', textTransform: 'uppercase', marginBottom: 16,
+            }}>Tecnologías</div>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
               {technologies.map(t => (
                 <span key={t} style={{
-                  fontFamily: 'JetBrains Mono, monospace', fontSize: 12,
+                  fontFamily: T.body, fontSize: 12,
                   padding: '6px 14px', borderRadius: 999,
-                  background: B.surface, border: `1px solid ${B.border}`, color: B.muted,
+                  background: T.surface, border: `1px solid ${T.border}`, color: T.muted,
                 }}>{t}</span>
               ))}
             </div>
